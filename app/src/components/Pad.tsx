@@ -54,8 +54,8 @@ const Pad = ({ x, y }: Props) => {
         setRgbColor(randomRGB())
       }}
     >
-      {isActive ?
-        isPressed ? `>${button}<` : `[${button}]` : button
+      {JSON.stringify(rgbColor) === JSON.stringify([0, 0, 0]) ?
+        button : isPressed ? `>${button}<` : `[${button}]`
       }
     </Item>
   )

@@ -322,5 +322,3 @@ ipcMain.on('pad', (event, buttonNr) => {
   console.log("PAD =>", buttonNr)
   lp.setButtonColor(parseInt(buttonNr), colorFromRGB(randomRGB()))
 })
-
-ipcMain.on('toMain', (event, data) => console.log("TO MAIN =>", data))

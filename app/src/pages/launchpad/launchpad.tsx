@@ -33,12 +33,12 @@ const Pad = ({ x, y }: PadProps) => {
   const handleClick = () => {
     // @ts-ignore
     window.api.send('pad', buttonNr)
+    setActive(true)
   }
 
   return (
-    <Item onClick={handleClick}>
-      {isActive ? 'ON' : ''}
-      {buttonNr}
+    <Item onClick={handleClick} onMouseOver={handleClick}>
+      {isActive ? `[${buttonNr}]` : buttonNr}
     </Item>
   )
 }
@@ -59,6 +59,9 @@ const createGrid = () => {
 
 export default () => {
   const grid = createGrid()
+
+  // @ts-ignore
+  window.api.send('lpClear')
 
   return (
     <>

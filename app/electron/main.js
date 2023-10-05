@@ -313,8 +313,6 @@ const initLP = async () => {
 initDMX()
 initLP()
 
-
-
 lp.on('buttonDown', ( button ) => {
   console.log(`Pressed => `, button)
 
@@ -323,12 +321,7 @@ lp.on('buttonDown', ( button ) => {
       return
   }
 
-  // const rgbColor = randomRGB()
-  // lp.setButtonColor(button, colorFromRGB(rgbColor))
-
-  win.webContents.send(`pad_${button.nr}`, {
-    event: 'BUTTON_DOWN'
-  })
+  win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_DOWN' })
 })
 
 lp.on('buttonUp', ( button ) => {

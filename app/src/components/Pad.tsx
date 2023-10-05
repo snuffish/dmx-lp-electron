@@ -20,7 +20,6 @@ type Props = {
 const Pad = ({ x, y }: Props) => {
   const button = parseInt(`${y}${x}`)
 
-  const [isActive, setActive] = useState(false)
   const [isPressed, setPressed] = useState(false)
   const [rgbColor, setRgbColor] = useState([0, 0, 0])
 
@@ -29,14 +28,13 @@ const Pad = ({ x, y }: Props) => {
     window.api.send(CHANNELS.LP.PAD, {
       rgbColor, button
     })
-  }, [isActive, isPressed, rgbColor])
+  }, [isPressed, rgbColor])
 
   useEffect(() => {
     // @ts-ignore
     window.api.receive(`pad_${button}`, ({ event }) => {
       console.log(`BUTTON => ${button} [Event: ${event} | Color: ${rgbColor}]`)
 
-      setActive(true)
       setPressed(event === 'BUTTON_DOWN' ?? false)
       setRgbColor(randomRGB())
     })
@@ -44,14 +42,18 @@ const Pad = ({ x, y }: Props) => {
 
   return (
     <Item
+      onClick={() => {
+        setRgbColor([0, 0, 0])
+      }}
       onMouseOver={() => {
         setPressed(true)
-        setActive(true)
         setRgbColor(randomRGB())
       }}
       onMouseLeave={() => {
         setPressed(false)
-        setRgbColor(randomRGB())
+        if (JSON.stringify(rgbColor) !== JSON.stringify([0, 0, 0])) {
+          setRgbColor(randomRGB())
+        }
       }}
     >
       {JSON.stringify(rgbColor) === JSON.stringify([0, 0, 0]) ?

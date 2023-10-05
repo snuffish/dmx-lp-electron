@@ -24,12 +24,15 @@ const crypto = require("crypto");
 const isDev = process.env.NODE_ENV === "development";
 const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`;
+
 const { autoDetect, ILaunchpad, RgbColor } = require('launchpad.js')
 const { colorFromRGB } = require('launchpad.js/dist/colorHelpers')
+const { DMX, EnttecUSBDMXProDriver, UniverseData } = require('dmx-ts')
 
 let win;
 let menuBuilder;
 let lp
+let dmx
 
 async function createWindow() {
   if (!isDev) {
@@ -292,13 +295,28 @@ const randomRGB = () => {
   return [r, g, b]
 }
 
+const initDMX = async () => {
+  const serialPort = 'COM3'
+  const dmxSpeed = 40
+  
+  dmx = new DMX()
+  const driver = new EnttecUSBDMXProDriver(serialPort, { dmxSpeed })
+  
+  const universe = await dmx.addUniverse('universe1', driver)
+  
+  universe.updateAll(200)
+}
 
+const initLP = async () => {
+  lp = autoDetect({ debug: false })
+  
+  lp.once('ready', ( device ) => {
+    console.log(`Connected to ${device}`)
+  })
+}
 
-lp = autoDetect({ debug: false })
-
-lp.once('ready', ( device ) => {
-  console.log(`Connected to ${device}`)
-})
+initDMX()
+initLP()
 
 lp.on('buttonDown', ( button ) => {
   console.log(`Pressed => `, button)
@@ -322,3 +340,5 @@ ipcMain.on('pad', (event, buttonNr) => {
   console.log("PAD =>", buttonNr)
   lp.setButtonColor(parseInt(buttonNr), colorFromRGB(randomRGB()))
 })
+
+

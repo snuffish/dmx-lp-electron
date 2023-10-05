@@ -31,8 +31,11 @@ const { DMX, EnttecUSBDMXProDriver, UniverseData } = require('dmx-ts')
 
 let win;
 let menuBuilder;
+
 let lp
+
 let dmx
+let universe
 
 async function createWindow() {
   if (!isDev) {
@@ -298,13 +301,13 @@ const randomRGB = () => {
 const initDMX = async () => {
   const serialPort = 'COM3'
   const dmxSpeed = 40
-  
+
   dmx = new DMX()
   const driver = new EnttecUSBDMXProDriver(serialPort, { dmxSpeed })
   
-  const universe = await dmx.addUniverse('universe1', driver)
+  universe = await dmx.addUniverse('universe1', driver)
   
-  universe.updateAll(200)
+  universe.updateAll(0)
 }
 
 const initLP = async () => {
@@ -326,9 +329,19 @@ lp.on('buttonDown', ( button ) => {
       return
   }
 
-  lp.setButtonColor(button, colorFromRGB(randomRGB()))
+  const rgbColor = randomRGB()
+  lp.setButtonColor(button, colorFromRGB(rgbColor))
 
-  win.webContents.send(`pad_${button.nr}`, { button })
+  win.webContents.send(`pad_${button.nr}`, {
+    event: 'BUTTON_DOWN',
+    button, rgbColor
+  })
+})
+
+lp.on('buttonUp', ( button ) => {
+  console.log('Released => ', button)
+
+  win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_UP' })
 })
 
 ipcMain.on('lpClear', () => {
@@ -336,9 +349,9 @@ ipcMain.on('lpClear', () => {
   lp.allOff()
 })
 
+ipcMain.on('dmxClear', () => universe.updateAll(0))
+
 ipcMain.on('pad', (event, buttonNr) => {
   console.log("PAD =>", buttonNr)
-  lp.setButtonColor(parseInt(buttonNr), colorFromRGB(randomRGB()))
+  lp.setButtonColor(buttonNr, colorFromRGB(randomRGB()))
 })
-
-

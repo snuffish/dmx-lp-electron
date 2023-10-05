@@ -1,5 +1,7 @@
 import { styled, Paper } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
+import { CHANNELS } from './../constants/ipc'
+import { randomRGB } from "../utils/color";
 
 const Item = styled(Paper)(() => ({
   backgroundColor: '#fff',
@@ -10,44 +12,46 @@ const Item = styled(Paper)(() => ({
   cursor: 'pointer'
 }));
 
-type PadProps = {
+type Props = {
   x: number,
   y: number
 }
 
-const Pad = ({ x, y }: PadProps) => {
+const Pad = ({ x, y }: Props) => {
   const button = parseInt(`${y}${x}`)
 
   const [isActive, setActive] = useState(false)
   const [isPressed, setPressed] = useState(false)
+  const [rgbColor, setRgbColor] = useState([0, 0, 0])
 
   useEffect(() => {
     // @ts-ignore
-    window.api.receive(`pad_${button}`, ({ event, rgbColor }) => {
+    window.api.send(CHANNELS.LP.PAD, {
+      rgbColor, button
+    })
+  }, [isActive, isPressed, rgbColor])
+
+  useEffect(() => {
+    // @ts-ignore
+    window.api.receive(`pad_${button}`, ({ event }) => {
       console.log(`BUTTON => ${button} [Event: ${event} | Color: ${rgbColor}]`)
+
       setActive(true)
-  
       setPressed(event === 'BUTTON_DOWN' ?? false)
+      setRgbColor(randomRGB())
     })
   }, [])
 
-  const handleClick = () => {
-    // @ts-ignore
-    window.api.send(CHANNELS.LP.PAD, button)
-    setActive(true)
-  }
-
   return (
     <Item
-      onClick={handleClick}
       onMouseOver={() => {
         setPressed(true)
         setActive(true)
-        // @ts-ignore
-        window.api.send(CHANNELS.LP.PAD, button)
+        setRgbColor(randomRGB())
       }}
       onMouseLeave={() => {
         setPressed(false)
+        setRgbColor(randomRGB())
       }}
     >
       {isActive ?

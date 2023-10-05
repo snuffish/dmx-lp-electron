@@ -272,11 +272,10 @@ app.on("web-contents-created", (event, contents) => {
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
         `The application tried to open a new window at the following address: '${url}'. This attempt was blocked.`
-      );
-
+      )
       return {
         action: "deny"
-      };
+      }
     }
 
     return {
@@ -289,14 +288,7 @@ app.on("web-contents-created", (event, contents) => {
 
 
 
-const randomRGB = () => {
-  const num = Math.round(0xffffff * Math.random());
-  const r = num >> 16;
-  const g = num >> 8 & 255;
-  const b = num & 255;
 
-  return [r, g, b]
-}
 
 const initDMX = async () => {
   const serialPort = 'COM3'
@@ -321,6 +313,8 @@ const initLP = async () => {
 initDMX()
 initLP()
 
+
+
 lp.on('buttonDown', ( button ) => {
   console.log(`Pressed => `, button)
 
@@ -329,12 +323,11 @@ lp.on('buttonDown', ( button ) => {
       return
   }
 
-  const rgbColor = randomRGB()
-  lp.setButtonColor(button, colorFromRGB(rgbColor))
+  // const rgbColor = randomRGB()
+  // lp.setButtonColor(button, colorFromRGB(rgbColor))
 
   win.webContents.send(`pad_${button.nr}`, {
-    event: 'BUTTON_DOWN',
-    button, rgbColor
+    event: 'BUTTON_DOWN'
   })
 })
 
@@ -351,7 +344,7 @@ ipcMain.on('lpClear', () => {
 
 ipcMain.on('dmxClear', () => universe.updateAll(0))
 
-ipcMain.on('pad', (event, buttonNr) => {
-  console.log("PAD =>", buttonNr)
-  lp.setButtonColor(buttonNr, colorFromRGB(randomRGB()))
+ipcMain.on('pad', (event, { button, rgbColor }) => {
+  console.log("PAD =>", button, rgbColor)
+  lp.setButtonColor(parseInt(button), colorFromRGB(rgbColor))
 })

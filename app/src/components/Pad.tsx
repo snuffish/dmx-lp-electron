@@ -46,14 +46,15 @@ const Pad = ({ x, y }: Props) => {
         setRgbColor([0, 0, 0])
       }}
       onMouseOver={() => {
-        setPressed(true)
         setRgbColor(randomRGB())
+        setPressed(true)
       }}
       onMouseLeave={() => {
         setPressed(false)
-        if (JSON.stringify(rgbColor) !== JSON.stringify([0, 0, 0])) {
-          setRgbColor(randomRGB())
-        }
+        if (JSON.stringify(rgbColor) !== JSON.stringify([0, 0, 0]))
+          return
+
+        setRgbColor(randomRGB())
       }}
     >
       {JSON.stringify(rgbColor) === JSON.stringify([0, 0, 0]) ?

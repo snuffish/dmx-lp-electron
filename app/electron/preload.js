@@ -12,7 +12,6 @@ const API = {
   store: store.preloadBindings(ipcRenderer, fs),
   contextMenu: ContextMenu.preloadBindings(ipcRenderer),
   licenseKeys: SecureElectronLicenseKeys.preloadBindings(ipcRenderer),
-  ping: () => ipcRenderer.send('ping'),
   send: (channel, data) => {
     // let validChannels = ["toMain"];
     // if (validChannels.includes(channel)) {

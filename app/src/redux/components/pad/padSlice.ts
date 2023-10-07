@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createSlice } from "@reduxjs/toolkit"
-import { ColorOff, randomRGB } from "../../../utils/color"
 import { getAllButtons } from "../../../utils"
+import { ColorOff } from "../../../utils/color"
 
 const padSlice = createSlice({
   name: "pad",
@@ -22,7 +22,7 @@ const padSlice = createSlice({
     },
     setPressed(state, action) {
       const { button, pressed } = action.payload
-      console.log("PÅRESSED=>",action.payload)
+      console.log("PRESS=>",button,pressed)
       state.buttons[button].isPressed = pressed
     },
   },

@@ -322,14 +322,12 @@ lp.on('buttonDown', ( button ) => {
   }
 
   win.webContents.send('pad', { event: 'BUTTON_DOWN', button })
-  // win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_DOWN' })
-})-
+})
 
 lp.on('buttonUp', ( button ) => {
   console.log('Released => ', button)
 
   win.webContents.send('pad', {  event: 'BUTTON_UP', button })
-  // win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_UP' })
 })
 
 ipcMain.on('lpClear', () => {
@@ -347,6 +345,5 @@ ipcMain.on('dmxUpdate', (event, universeData) => {
 })
 
 ipcMain.on('lpPadColor', (event, { button, color }) => {
-  console.log("PAD =>", button, color)
   lp.setButtonColor(parseInt(button), colorFromRGB(color))
 })

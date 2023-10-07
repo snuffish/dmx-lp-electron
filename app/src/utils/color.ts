@@ -1,6 +1,6 @@
 import { RgbColor } from "launchpad.js";
 
-export const randomRGB = (): number[] => {
+export const randomRGB = (): RgbColor => {
   const num = Math.round(0xffffff * Math.random());
   const r = num >> 16;
   const g = num >> 8 & 255;
@@ -9,9 +9,9 @@ export const randomRGB = (): number[] => {
   return [r, g, b]
 }
 
-export const ColorOff = [0, 0, 0]
+export const ColorOff = [0, 0, 0] as RgbColor
 
-const componentToHex = (c: number) => {
+const componentToHex = (c: number): string => {
   var hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 }

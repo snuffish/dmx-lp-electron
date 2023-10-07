@@ -1,62 +1,42 @@
 // @ts-nocheck
-import { Paper, styled } from "@material-ui/core"
-import { changeColor, setPressed } from "Redux/components/pad/padSlice"
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { ColorOff, randomRGB, rgbToHex } from "../utils/color"
+import { Paper, styled } from '@material-ui/core'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ColorOff, randomRGB, rgbToHex } from '../utils/color'
+import { changeColor, setPressed } from '../redux/components/pad/padActions'
 
 const Pad = ({ x, y }) => {
   const button = parseInt(`${y}${x}`)
 
-  const { isPressed, color } = useSelector((state) => state.pad.buttons[button])
   const dispatch = useDispatch()
+  const { isPressed, color } = useSelector((state) => state.pad.buttons[button])
 
-  useEffect(() => window.api.send("lpPadColor", { button, color }), [color])
+  useEffect(() => window.api.send('lpPadColor', { button, color }), [color])
 
   useEffect(() => {
-    console.log("INVOKE PRESSED =>", button, "STATE: ", isPressed)
+    console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
   }, [isPressed])
 
   const onClick = () => {
-    dispatch(
-      changeColor({
-        color: ColorOff,
-        button,
-      })
-    )
+    dispatch(changeColor(button, ColorOff))
   }
 
   const onMouseOver = () => {
-    dispatch(
-      changeColor({
-        color: randomRGB(),
-        button,
-      })
-    )
-    dispatch(
-      setPressed({
-        pressed: true,
-        button,
-      })
-    )
+    dispatch(changeColor(button, randomRGB()))
+    dispatch(setPressed(button, true))
   }
 
   const onMouseLeave = () => {
-    dispatch(
-      setPressed({
-        pressed: false,
-        button,
-      })
-    )
+    useDispatch(setPressed(button, false))
   }
 
   const Item = styled(Paper)(() => ({
-    backgroundColor: color === ColorOff ? "#fff" : rgbToHex(color),
+    backgroundColor: color === ColorOff ? '#fff' : rgbToHex(color),
     padding: 10,
-    textAlign: "center",
-    color: "black",
-    background: "#B7BCC2",
-    cursor: "pointer",
+    textAlign: 'center',
+    color: 'black',
+    background: '#B7BCC2',
+    cursor: 'pointer',
   }))
 
   return (

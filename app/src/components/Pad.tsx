@@ -1,7 +1,7 @@
-import { Paper, rgbToHex, styled } from '@material-ui/core'
+import { Paper, styled } from '@material-ui/core'
 import { CHANNELS } from 'Constants/ipc'
 import { changeColor, setPressed } from 'Redux/components/pad/padActions'
-import { ColorOff, randomRGB } from 'Utils/color'
+import { ColorOff, randomRGB, rgbToHex } from 'Utils/color'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -26,10 +26,13 @@ const Pad = ({ x, y }: Props) => {
 
   useEffect(() => {
     console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
-    if (isPressed) dispatch(changeColor(button, randomRGB()))
-    // if (!isPressed)
-    //   dispatch(changeColor(button, ColorOff))
-      // setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
+    if (isPressed) {
+      dispatch(changeColor(button, randomRGB()))
+      return
+    }
+    if (!isPressed) {
+      setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
+    }
   }, [isPressed])
 
   const onClick = () => {
@@ -47,6 +50,8 @@ const Pad = ({ x, y }: Props) => {
     setMouseOver(false)
     dispatch(setPressed(button, false))
   }
+
+  // console.log("RGB=>", color)
 
   const Item = styled(Paper)(() => ({
     backgroundColor: color === ColorOff ? '#fff' : rgbToHex(color),

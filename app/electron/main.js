@@ -25,8 +25,12 @@ const isDev = process.env.NODE_ENV === 'development'
 const port = 40992 // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`
 
-const { autoDetect, ILaunchpad, RgbColor } = require('launchpad.js')
-const { colorFromRGB } = require('launchpad.js/dist/colorHelpers')
+const {
+  autoDetect,
+  ILaunchpad,
+  RgbColor,
+  colors: { colorFromRGB },
+} = require('launchpad.js')
 const { DMX, EnttecUSBDMXProDriver, UniverseData } = require('dmx-ts')
 
 let win
@@ -357,5 +361,10 @@ ipcMain.on('dmxUpdate', (event, universeData) => {
 })
 
 ipcMain.on('lpPadColor', (event, { button, color }) => {
-  lp.setButtonColor(parseInt(button), colorFromRGB(color))
+  console.log("COLOR => ", color)
+  try {
+    lp.setButtonColor(parseInt(button), colorFromRGB(color))
+  } catch (ex) {
+    console.log("EX => ", ex)
+  }
 })

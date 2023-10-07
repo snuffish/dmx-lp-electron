@@ -1,9 +1,7 @@
-import { useDispatch } from 'react-redux'
-import { randomRGB } from '../utils/color'
-import { changeColor, setPressed } from '../redux/components/pad/padActions'
+import { BUTTON_DOWN } from 'Constants/events'
+import { setPressed } from 'Redux/components/pad/padActions'
 import React, { useEffect } from 'react'
-import { CHANNELS } from '../constants/ipc'
-import { BUTTON_DOWN } from '../constants/events'
+import { useDispatch } from 'react-redux'
 
 const Receiver = () => {
   const dispatch = useDispatch()

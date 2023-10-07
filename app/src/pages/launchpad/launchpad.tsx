@@ -1,12 +1,9 @@
-// @ts-nocheck
 import { Grid } from '@material-ui/core'
-import { changeColor, setPressed } from 'Redux/components/pad/padSlice'
+import Pad from 'Components/Pad'
+import Test from 'Components/Test'
+import { CHANNELS } from 'Constants/ipc'
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import Pad from '../../components/Pad'
-import Test from '../../components/Test'
-import { CHANNELS } from '../../constants/ipc'
-import { randomRGB } from '../../utils/color'
+
 
 const createGrid = () => {
   const rows = []
@@ -22,7 +19,9 @@ const createGrid = () => {
   return rows
 }
 
-const Launchpad = (props) => {
+type Props = any
+
+const Launchpad = (props: Props) => {
   // @ts-ignore
   window.api.send(CHANNELS.LP.CLEAR)
 

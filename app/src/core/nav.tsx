@@ -7,7 +7,7 @@ import {
 } from 'secure-electron-license-keys'
 
 class Nav extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {
@@ -36,7 +36,7 @@ class Nav extends React.Component {
     // validated by the main process
     const _ = this
 
-    window.api.licenseKeys.onReceive(validateLicenseResponse, function (data) {
+    window.api.licenseKeys.onReceive(validateLicenseResponse, function (data: any) {
       // If the license key/data is valid
       if (data.success) {
         // Here you would compare data.appVersion to
@@ -59,13 +59,13 @@ class Nav extends React.Component {
     })
   }
 
-  toggleMenu(_event) {
+  toggleMenu(_event: any) {
     this.setState({
       mobileMenuActive: !this.state.mobileMenuActive,
     })
   }
 
-  toggleLicenseModal(_event) {
+  toggleLicenseModal(_event: any) {
     const previous = this.state.licenseModalActive
 
     // Only send license request if the modal
@@ -82,7 +82,7 @@ class Nav extends React.Component {
   // Using a custom method to navigate because we
   // need to close the mobile menu if we navigate to
   // another page
-  navigate(url) {
+  navigate(url: any) {
     this.setState(
       {
         mobileMenuActive: false,
@@ -198,17 +198,17 @@ class Nav extends React.Component {
               Home
             </a>
 
-            <a
+            {/* <a
               className="navbar-item"
               onClick={() => this.navigate(ROUTES.ABOUT)}>
               About
-            </a>
+            </a> */}
 
             <div className="navbar-item has-dropdown is-hoverable">
               <a className="navbar-link">Sample pages</a>
 
               <div className="navbar-dropdown">
-                <a
+                {/* <a
                   className="navbar-item"
                   onClick={() => this.navigate(ROUTES.MOTD)}>
                   Using the Electron store
@@ -232,7 +232,7 @@ class Nav extends React.Component {
                   className="navbar-item"
                   onClick={() => this.navigate(ROUTES.IMAGE)}>
                   Sample image loaded
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
@@ -254,7 +254,7 @@ class Nav extends React.Component {
   }
 }
 
-function WithNavigate(props) {
+function WithNavigate(props: any) {
   const navigate = useNavigate()
   return <Nav {...props} navigate={navigate} />
 }

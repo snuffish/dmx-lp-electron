@@ -1,7 +1,9 @@
 import React from 'react'
 
+type Props = { id: any }
+
 class SubItem extends React.Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
   }
 
@@ -14,7 +16,7 @@ class SubItem extends React.Component {
     // of id "alert" is selected
     window.api.contextMenu.onReceive(
       'softAlert',
-      function (args) {
+      function (args: any) {
         console.log(
           `This alert was brought to you by secure-electron-context-menu by ${args.attributes.name}`
         )

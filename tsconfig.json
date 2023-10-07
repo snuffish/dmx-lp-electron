@@ -22,7 +22,16 @@
         /* Module Resolution Options */
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "paths": {
+          "Core/*": ["./app/src/core/*"],
+          "Redux/*": ["./app/src/redux/*"],
+          "I18n/*": ["./app/localization/*"],
+          "Components/*": ["./app/src/components/*"],
+          "Constants/*": ["./app/src/constants/*"],
+          "Pages/*": ["./app/src/pages/*"],
+          "Utils/*": ["./app/src/utils/*"]
+        }
     },
     "include": [
         "app/src"

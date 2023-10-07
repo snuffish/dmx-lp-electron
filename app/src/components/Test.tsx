@@ -1,9 +1,8 @@
-// @ts-nocheck
 import React from "react"
 import { useSelector } from "react-redux"
 
 const TestComponent = () => {
-  const buttons = useSelector((state) => state.pad.buttons)
+  const buttons = useSelector((state: any) => state.pad.buttons)
 
   return (
     <>

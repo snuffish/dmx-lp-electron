@@ -1,17 +1,23 @@
-// @ts-nocheck
-import { Paper, styled } from '@material-ui/core'
+import { Paper, rgbToHex, styled } from '@material-ui/core'
+import { CHANNELS } from 'Constants/ipc'
+import { changeColor, setPressed } from 'Redux/components/pad/padActions'
+import { ColorOff, randomRGB } from 'Utils/color'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ColorOff, randomRGB, rgbToHex } from '../utils/color'
-import { changeColor, setPressed } from '../redux/components/pad/padActions'
-import { CHANNELS } from '../constants/ipc'
 
-const Pad = ({ x, y }) => {
+type Props = { x: number, y: number }
+
+const Pad = ({ x, y }: Props) => {
   const button = parseInt(`${y}${x}`)
 
   const dispatch = useDispatch()
   const [isMouseOver, setMouseOver] = useState(false)
-  const { isPressed, color } = useSelector((state) => state.pad.buttons[button])
+  const { isPressed, color } = useSelector((state: any) => state.pad.buttons[button])
+
+  useEffect(() => {
+    console.log("MOUNTED => ", button)
+    return () => console.log("DISMOUNTED!!!!")
+  }, [])
 
   useEffect(
     () => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color }),
@@ -21,8 +27,8 @@ const Pad = ({ x, y }) => {
   useEffect(() => {
     console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
     if (isPressed) dispatch(changeColor(button, randomRGB()))
-    if (!isPressed)
-      dispatch(changeColor(button, ColorOff))
+    // if (!isPressed)
+    //   dispatch(changeColor(button, ColorOff))
       // setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
   }, [isPressed])
 

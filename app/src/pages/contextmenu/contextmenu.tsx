@@ -2,7 +2,7 @@ import React from 'react'
 import SubItem from 'Components/subitem/subitem'
 
 class ContextMenu extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {

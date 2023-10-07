@@ -3,7 +3,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { createHashHistory } from 'history'
 import { createReduxHistoryContext } from 'redux-first-history'
 import logger from 'redux-logger'
-import padReducer from '../components/pad/padReducer'
+import padReducer from 'Redux/components/pad/padReducer'
 
 const { routerMiddleware, createReduxHistory, routerReducer } =
   createReduxHistoryContext({

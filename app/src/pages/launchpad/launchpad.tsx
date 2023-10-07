@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { Button, Grid, Paper, Slider, styled } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
-import { CHANNELS } from '../../constants/ipc';
-import Pad from '../../components/Pad';
-import { changeColor } from 'Redux/components/pad/padSlice';
-import { connect } from 'react-redux';
-import { useSelector } from 'react-redux';
-import Test from '../../components/Test';
+import { Grid } from "@material-ui/core"
+import { changeColor, setPressed } from "Redux/components/pad/padSlice"
+import React from "react"
+import { connect } from "react-redux"
+import Pad from "../../components/Pad"
+import Test from "../../components/Test"
+import { CHANNELS } from "../../constants/ipc"
+import { randomRGB } from "../../utils/color"
 
 const createGrid = () => {
   const rows = []
@@ -22,10 +22,19 @@ const createGrid = () => {
   return rows
 }
 
-const Launchpad = (props: any) => {
+const Launchpad = ({ changeColor, setPressed }) => {
   // @ts-ignore
-  window.api.receive('pad', ({ event, button }) => {
-    console.log("PAD EVENT => ", event, " BUTTON => ", button)
+  window.api.receive("pad", ({ event, button }) => {
+    // console.log("PAD EVENT => ", event, " BUTTON => ", button)
+    changeColor({
+      color: randomRGB(),
+      button: button.nr
+    })
+
+    setPressed({
+      pressed: event === "BUTTON_DOWN" ?? false,
+      button: button.nr
+    })
   })
 
   // @ts-ignore
@@ -33,26 +42,21 @@ const Launchpad = (props: any) => {
 
   return (
     <>
-      {createGrid().map(row => (
+      {createGrid().map((row) => (
         <Grid container>
-          {row.map(pad => (
-            <Grid item>
-              {pad}
-            </Grid>
+          {row.map((pad) => (
+            <Grid item>{pad}</Grid>
           ))}
         </Grid>
       ))}
-      <Test/>
-      {/* <Button onClick={() => changeColor(JSON.stringify([255, 0, 0]))}>R</Button>
-      <Button onClick={() => changeColor(JSON.stringify([0, 255, 0]))}>G</Button>
-      <Button onClick={() => changeColor(JSON.stringify([0, 0, 255]))}>B</Button> */}
+      <Test />
     </>
   )
 }
 
 const mapStateToProps = (state: any, _props: any) => ({
-  color: state.color
+  color: state.color,
 })
-const mapDispatch = { changeColor }
+const mapDispatch = { changeColor, setPressed }
 
 export default connect(mapStateToProps, mapDispatch)(Launchpad)

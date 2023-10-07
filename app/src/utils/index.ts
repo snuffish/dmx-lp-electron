@@ -7,3 +7,5 @@ export const getAllButtons = () => {
   }
   return buttons
 }
+
+export const arrayEqual = (arr1: [], arr2: []) => JSON.stringify(arr1) === JSON.stringify(arr2) 

@@ -1,68 +1,69 @@
 // @ts-nocheck
-import { Paper, styled } from "@material-ui/core";
-import { changeColor } from "Redux/components/pad/padSlice";
-import React, { useEffect, useState } from "react";
-import { connect, useSelector } from "react-redux";
-import { randomRGB } from "../utils/color";
-import { CHANNELS } from './../constants/ipc';
+import { Paper, styled } from "@material-ui/core"
+import { changeColor, setPressed } from "Redux/components/pad/padSlice"
+import React, { useEffect } from "react"
+import { connect, useSelector } from "react-redux"
+import { ColorOff, randomRGB } from "../utils/color"
+import { arrayEqual } from "../utils"
 
 const Item = styled(Paper)(() => ({
-  backgroundColor: '#fff',
+  backgroundColor: "#fff",
   padding: 10,
-  textAlign: 'center',
-  color: 'black',
-  background: '#B7BCC2',
-  cursor: 'pointer'
-}));
+  textAlign: "center",
+  color: "black",
+  background: "#B7BCC2",
+  cursor: "pointer",
+}))
 
-type Props = {
-  x: number,
-  y: number
-}
-
-const Pad = ({
-  x, y,
-  changeColor
-}) => {
+const Pad = ({ x, y, changeColor, setPressed }) => {
   const button = parseInt(`${y}${x}`)
+  const { color, isPressed } = useSelector((state) => state.pad.buttons[button])
 
-  const [isPressed, setPressed] = useState(false)
-  // const [rgbColor, setRgbColor] = useState([0, 0, 0])
-
-  const color = useSelector(state => state.pad.color)
+  useEffect(() => window.api.send("lpPadColor", { button, color }), [color])
 
   useEffect(() => {
-    // console.log("CHANGED STOREVALUE FOR =>", button, " ##### ", color)
-    window.api.send('lpPadColor', { button, color })
-  }, [color])
+    console.log("INVOKE PRESSED =>", button, "STATE: ", isPressed)
+  }, [isPressed])
 
   return (
     <Item
       onClick={() => {
-        changeColor(JSON.stringify([0, 0, 0]))
+        changeColor({
+          color: ColorOff,
+          button
+        })
       }}
       onMouseOver={() => {
-        changeColor(JSON.stringify(randomRGB()))
-        setPressed(true)
+        changeColor({
+          color: randomRGB(),
+          button,
+        })
+        setPressed({
+          pressed: true,
+          button,
+        })
       }}
       onMouseLeave={() => {
-        setPressed(false)
-        if (JSON.stringify(color) !== JSON.stringify([0, 0, 0]))
-          return
+        setPressed({
+          pressed: false,
+          button,
+        })
 
-        changeColor(JSON.stringify(randomRGB()))
-      }}
-    >
-      {JSON.stringify(color) === JSON.stringify([0, 0, 0]) ?
-        button : isPressed ? `>${button}<` : `[${button}]`
-      }
+        // changeColor(JSON.stringify(randomRGB()))
+      }}>
+      {arrayEqual(color, ColorOff)
+        ? button
+        : isPressed
+        ? `>${button}<`
+        : `[${button}]`}
     </Item>
   )
 }
 
 const mapStateToProps = (state: any, _props: any) => ({
-  color: state.color
+  color: state.color,
+  isPressed: state.isPressed,
 })
-const mapDispatch = { changeColor }
+const mapDispatch = { changeColor, setPressed }
 
 export default connect(mapStateToProps, mapDispatch)(Pad)

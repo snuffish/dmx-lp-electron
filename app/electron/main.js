@@ -348,5 +348,5 @@ ipcMain.on('dmxUpdate', (event, universeData) => {
 
 ipcMain.on('lpPadColor', (event, { button, color }) => {
   console.log("PAD =>", button, color)
-  lp.setButtonColor(parseInt(button), colorFromRGB(JSON.parse(color)))
+  lp.setButtonColor(parseInt(button), colorFromRGB(color))
 })

@@ -6,3 +6,5 @@ export const randomRGB = (): number[] => {
 
   return [r, g, b]
 }
+
+export const ColorOff = [0, 0, 0]

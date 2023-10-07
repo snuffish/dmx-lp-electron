@@ -1,18 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
+// @ts-nocheck
+import { createSlice } from "@reduxjs/toolkit"
+import { ColorOff, randomRGB } from "../../../utils/color"
+import { getAllButtons } from "../../../utils"
 
 const padSlice = createSlice({
-  name: 'pad',
+  name: "pad",
   initialState: {
-    color: JSON.stringify([0, 255, 0])
+    buttons: getAllButtons().reduce(
+      (acc, value) => ({
+        ...acc,
+        [value]: { color: ColorOff, isPressed: false },
+      }),
+      {}
+    ),
+    isPressed: false,
   },
   reducers: {
     changeColor(state, action) {
-      console.log("REDUCER =>", action.payload)
-      state.color = action.payload
-    }
-  }
+      const { button, color } = action.payload
+      state.buttons[button].color = color
+    },
+    setPressed(state, action) {
+      const { button, pressed } = action.payload
+      console.log("PÅRESSED=>",action.payload)
+      state.buttons[button].isPressed = pressed
+    },
+  },
 })
 
-export const { changeColor } = padSlice.actions
+export const { changeColor, setPressed } = padSlice.actions
 
 export default padSlice.reducer

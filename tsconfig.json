@@ -30,7 +30,8 @@
           "Components/*": ["./app/src/components/*"],
           "Constants/*": ["./app/src/constants/*"],
           "Pages/*": ["./app/src/pages/*"],
-          "Utils/*": ["./app/src/utils/*"]
+          "Utils/*": ["./app/src/utils/*"],
+          "Images/*": ["./resources/images/*"]
         }
     },
     "include": [

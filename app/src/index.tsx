@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import i18n from 'I18n/i18n.config'
@@ -5,7 +6,7 @@ import { I18nextProvider } from 'react-i18next'
 import Root from 'Core/root'
 import { store, history } from 'Redux/store/store'
 import 'bulma/css/bulma.css'
-import Receiver from 'Components/Receiver'
+import Receiver from './components/Receiver'
 
 const container = document.getElementById('target')
 const root = createRoot(container)

@@ -28,13 +28,12 @@ i18n
     supportedLngs: whitelist.langs
   });
 
-window.api.i18nextElectronBackend.onLanguageChange((args: any) => {
-  i18n.changeLanguage(args.lng, (error: any, _t: any) => {
+window.api.i18nextElectronBackend.onLanguageChange((args) => {
+  i18n.changeLanguage(args.lng, (error, _t) => {
     if (error) {
       console.error(error);
     }
   });
 });
 
-// module.exports = i18n;
-export default i18n
+module.exports = i18n;

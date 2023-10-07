@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const foods = ["pineapple", "kiwi", "grapes", "orange"];
 const taste = ["great", "poor", "average", "good", "superb"];
 
-const index = function(array){
+const index = function(array: any){
     return Math.floor(Math.random() * array.length);
 }
 const randomFood = function(){

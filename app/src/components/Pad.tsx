@@ -1,7 +1,10 @@
-import { styled, Paper } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import { CHANNELS } from './../constants/ipc'
+// @ts-nocheck
+import { Paper, styled } from "@material-ui/core";
+import { changeColor } from "Redux/components/pad/padSlice";
+import React, { useEffect, useState } from "react";
+import { connect, useSelector } from "react-redux";
 import { randomRGB } from "../utils/color";
+import { CHANNELS } from './../constants/ipc';
 
 const Item = styled(Paper)(() => ({
   backgroundColor: '#fff',
@@ -17,51 +20,49 @@ type Props = {
   y: number
 }
 
-const Pad = ({ x, y }: Props) => {
+const Pad = ({
+  x, y,
+  changeColor
+}) => {
   const button = parseInt(`${y}${x}`)
 
   const [isPressed, setPressed] = useState(false)
-  const [rgbColor, setRgbColor] = useState([0, 0, 0])
+  // const [rgbColor, setRgbColor] = useState([0, 0, 0])
+
+  const color = useSelector(state => state.pad.color)
 
   useEffect(() => {
-    // @ts-ignore
-    window.api.send(CHANNELS.LP.PAD, {
-      rgbColor, button
-    })
-  }, [isPressed, rgbColor])
-
-  useEffect(() => {
-    // @ts-ignore
-    window.api.receive(`pad_${button}`, ({ event }) => {
-      console.log(`BUTTON => ${button} [Event: ${event} | Color: ${rgbColor}]`)
-
-      setPressed(event === 'BUTTON_DOWN' ?? false)
-      setRgbColor(randomRGB())
-    })
-  }, [])
+    // console.log("CHANGED STOREVALUE FOR =>", button, " ##### ", color)
+    window.api.send('lpPadColor', { button, color })
+  }, [color])
 
   return (
     <Item
       onClick={() => {
-        setRgbColor([0, 0, 0])
+        changeColor(JSON.stringify([0, 0, 0]))
       }}
       onMouseOver={() => {
-        setRgbColor(randomRGB())
+        changeColor(JSON.stringify(randomRGB()))
         setPressed(true)
       }}
       onMouseLeave={() => {
         setPressed(false)
-        if (JSON.stringify(rgbColor) !== JSON.stringify([0, 0, 0]))
+        if (JSON.stringify(color) !== JSON.stringify([0, 0, 0]))
           return
 
-        setRgbColor(randomRGB())
+        changeColor(JSON.stringify(randomRGB()))
       }}
     >
-      {JSON.stringify(rgbColor) === JSON.stringify([0, 0, 0]) ?
+      {JSON.stringify(color) === JSON.stringify([0, 0, 0]) ?
         button : isPressed ? `>${button}<` : `[${button}]`
       }
     </Item>
   )
 }
 
-export default Pad
+const mapStateToProps = (state: any, _props: any) => ({
+  color: state.color
+})
+const mapDispatch = { changeColor }
+
+export default connect(mapStateToProps, mapDispatch)(Pad)

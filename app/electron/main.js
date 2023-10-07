@@ -291,7 +291,7 @@ app.on("web-contents-created", (event, contents) => {
 
 
 const initDMX = async () => {
-  const serialPort = 'COM3'
+  const serialPort = 'COM4'
   const dmxSpeed = 40
 
   dmx = new DMX()
@@ -310,7 +310,7 @@ const initLP = async () => {
   })
 }
 
-initDMX()
+// initDMX()
 initLP()
 
 lp.on('buttonDown', ( button ) => {
@@ -321,13 +321,15 @@ lp.on('buttonDown', ( button ) => {
       return
   }
 
-  win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_DOWN' })
-})
+  win.webContents.send('pad', { event: 'BUTTON_DOWN', button })
+  // win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_DOWN' })
+})-
 
 lp.on('buttonUp', ( button ) => {
   console.log('Released => ', button)
 
-  win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_UP' })
+  win.webContents.send('pad', {  event: 'BUTTON_UP', button })
+  // win.webContents.send(`pad_${button.nr}`, { event: 'BUTTON_UP' })
 })
 
 ipcMain.on('lpClear', () => {
@@ -336,8 +338,15 @@ ipcMain.on('lpClear', () => {
 })
 
 ipcMain.on('dmxClear', () => universe.updateAll(0))
+ipcMain.on('dmxUpdate', (event, universeData) => {
+  console.log(`dmxUpdate =>`, universeData)
+  // universe.update({
+  //   1: 100
+  // })
+  // universe.update(universeData)
+})
 
-ipcMain.on('pad', (event, { button, rgbColor }) => {
-  console.log("PAD =>", button, rgbColor)
-  lp.setButtonColor(parseInt(button), colorFromRGB(rgbColor))
+ipcMain.on('lpPadColor', (event, { button, color }) => {
+  console.log("PAD =>", button, color)
+  lp.setButtonColor(parseInt(button), colorFromRGB(JSON.parse(color)))
 })

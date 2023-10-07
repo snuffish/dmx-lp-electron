@@ -15,11 +15,12 @@ import undoable from "easy-redux-undo";
 import homeReducer from "../components/home/homeSlice";
 import counterReducer from "../components/counter/counterSlice";
 import complexReducer from "../components/complex/complexSlice";
+import padReducer from "../components/pad/padSlice";
 
 const {
   routerMiddleware,
   createReduxHistory,
-  routerReducer
+  routerReducer,
 } = createReduxHistoryContext({
   history: createHashHistory()
 });
@@ -28,6 +29,7 @@ export const store = configureStore({
   reducer: combineReducers({
     router: routerReducer,
     home: homeReducer,
+    pad: padReducer,
     undoable: undoable(
       combineReducers({
         counter: counterReducer,

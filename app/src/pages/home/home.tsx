@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react"
 import { Button } from "@material-ui/core";
+import Test from "../../components/Test";
 
 const Home = () => {
   return (

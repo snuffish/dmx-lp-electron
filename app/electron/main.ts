@@ -31,7 +31,7 @@ export default class Main {
   static application: App
   static BrowserWindow
 
-  static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
+  public static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
     Main.BrowserWindow = browserWindow
     Main.application = app
     Main.application.on('window-all-closed', Main.onWindowAllClosed)

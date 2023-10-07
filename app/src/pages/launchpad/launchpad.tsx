@@ -26,7 +26,7 @@ const Launchpad = (props) => {
   const dispatch = useDispatch()
 
   // @ts-ignore
-  window.api.receive('pad', ({ event, button }) => {
+  window.api.receive(CHANNELS.LP.PAD, ({ event, button }) => {
     dispatch(
       setPressed({
         pressed: event === 'BUTTON_DOWN' ?? false,

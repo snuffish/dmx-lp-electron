@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ColorOff, randomRGB, rgbToHex } from '../utils/color'
 import { changeColor, setPressed } from '../redux/components/pad/padActions'
+import { CHANNELS } from '../constants/ipc'
 
 const Pad = ({ x, y }) => {
   const button = parseInt(`${y}${x}`)
@@ -11,7 +12,7 @@ const Pad = ({ x, y }) => {
   const dispatch = useDispatch()
   const { isPressed, color } = useSelector((state) => state.pad.buttons[button])
 
-  useEffect(() => window.api.send('lpPadColor', { button, color }), [color])
+  useEffect(() => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color }), [color])
 
   useEffect(() => {
     console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)

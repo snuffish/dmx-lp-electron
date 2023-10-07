@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Paper, styled } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ColorOff, randomRGB, rgbToHex } from '../utils/color'
 import { changeColor, setPressed } from '../redux/components/pad/padActions'
@@ -10,6 +10,7 @@ const Pad = ({ x, y }) => {
   const button = parseInt(`${y}${x}`)
 
   const dispatch = useDispatch()
+  const [isMouseOver, setMouseOver] = useState(false)
   const { isPressed, color } = useSelector((state) => state.pad.buttons[button])
 
   useEffect(
@@ -19,19 +20,26 @@ const Pad = ({ x, y }) => {
 
   useEffect(() => {
     console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
+    if (isPressed) dispatch(changeColor(button, randomRGB()))
+    if (!isPressed)
+      dispatch(changeColor(button, ColorOff))
+      // setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
   }, [isPressed])
 
   const onClick = () => {
     dispatch(changeColor(button, ColorOff))
   }
 
-  const onMouseOver = () => {
-    dispatch(changeColor(button, randomRGB()))
+  const onMouseEnter = () => {
+    if (isMouseOver) return
+    setMouseOver(true)
     dispatch(setPressed(button, true))
   }
 
   const onMouseLeave = () => {
-    useDispatch(setPressed(button, false))
+    if (!isMouseOver) return
+    setMouseOver(false)
+    dispatch(setPressed(button, false))
   }
 
   const Item = styled(Paper)(() => ({
@@ -46,7 +54,7 @@ const Pad = ({ x, y }) => {
   return (
     <Item
       onClick={onClick}
-      onMouseOver={onMouseOver}
+      onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}>
       {button}
     </Item>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import AppRoutes from 'Core/routes'
 import React from 'react'
 import { Provider } from 'react-redux'

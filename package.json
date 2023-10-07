@@ -3,7 +3,7 @@
   "version": "22.0.0",
   "description": "The best way to build Electron apps with security in mind.",
   "private": true,
-  "main": "app/electron/main.js",
+  "main": "app/electron/main.ts",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "audit-app": "npx electronegativity -i ./ -x LimitNavigationGlobalCheck,PermissionRequestHandlerGlobalCheck",
@@ -18,7 +18,8 @@
     "dist-linux": "npm run test && npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run test && npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "mocha"
+    "test": "mocha",
+    "testBuild": "./node_modules/.bin/tsc"
   },
   "build": {
     "productName": "YourProductName",

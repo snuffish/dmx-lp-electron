@@ -5,18 +5,19 @@ import { ColorOff, randomRGB, rgbToHex } from 'Utils/color'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-type Props = { x: number, y: number }
+type Props = { x: number; y: number }
 
 const Pad = ({ x, y }: Props) => {
   const button = parseInt(`${y}${x}`)
 
   const dispatch = useDispatch()
   const [isMouseOver, setMouseOver] = useState(false)
-  const { isPressed, color } = useSelector((state: any) => state.pad.buttons[button])
+  const { isPressed, color } = useSelector(
+    (state: any) => state.pad.buttons[button]
+  )
 
   useEffect(() => {
-    console.log("MOUNTED => ", button)
-    return () => console.log("DISMOUNTED!!!!")
+    // return () => console.log("DISMOUNTED!!!!")
   }, [])
 
   useEffect(
@@ -25,13 +26,13 @@ const Pad = ({ x, y }: Props) => {
   )
 
   useEffect(() => {
-    console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
+    // console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
     if (isPressed) {
-      dispatch(changeColor(button, randomRGB()))
+      // dispatch(changeColor(button, randomRGB()))
       return
     }
     if (!isPressed) {
-      setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
+      // setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
     }
   }, [isPressed])
 

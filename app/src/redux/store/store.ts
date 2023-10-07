@@ -20,7 +20,7 @@ export const store = configureStore({
       serializableCheck: false,
     }),
     routerMiddleware,
-    logger,
+    // logger,
   ],
 })
 

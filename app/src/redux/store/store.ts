@@ -7,7 +7,7 @@ import undoable from "easy-redux-undo"
 import homeReducer from "../components/home/homeSlice"
 import counterReducer from "../components/counter/counterSlice"
 import complexReducer from "../components/complex/complexSlice"
-import padReducer from "../components/pad/padSlice"
+import padReducer from "../components/pad/padReducer"
 
 const { routerMiddleware, createReduxHistory, routerReducer } =
   createReduxHistoryContext({

@@ -23,25 +23,6 @@ const createGrid = () => {
 }
 
 const Launchpad = (props) => {
-  const dispatch = useDispatch()
-
-  // @ts-ignore
-  window.api.receive(CHANNELS.LP.PAD, ({ event, button }) => {
-    dispatch(
-      setPressed({
-        pressed: event === 'BUTTON_DOWN' ?? false,
-        button: button.nr,
-      })
-    )
-
-    dispatch(
-      changeColor({
-        color: randomRGB(),
-        button: button.nr,
-      })
-    )
-  })
-
   // @ts-ignore
   window.api.send(CHANNELS.LP.CLEAR)
 

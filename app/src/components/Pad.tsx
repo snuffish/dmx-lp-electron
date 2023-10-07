@@ -12,7 +12,10 @@ const Pad = ({ x, y }) => {
   const dispatch = useDispatch()
   const { isPressed, color } = useSelector((state) => state.pad.buttons[button])
 
-  useEffect(() => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color }), [color])
+  useEffect(
+    () => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color }),
+    [color]
+  )
 
   useEffect(() => {
     console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)

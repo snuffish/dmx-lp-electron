@@ -1,13 +1,13 @@
-import React from "react";
-import { HistoryRouter } from "redux-first-history/rr6";
-import { Provider } from "react-redux";
-import AppRoutes from "Core/routes";
-import Nav from "./nav";
-import "./root.css";
+import AppRoutes from 'Core/routes'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { HistoryRouter } from 'redux-first-history/rr6'
+import Nav from './nav'
+import './root.css'
 
 class Root extends React.Component {
   render() {
-    const { store, history } = this.props;
+    const { store, history } = this.props
 
     return (
       <React.Fragment>
@@ -18,8 +18,8 @@ class Root extends React.Component {
           </HistoryRouter>
         </Provider>
       </React.Fragment>
-    );
+    )
   }
 }
 
-export default Root;
+export default Root

@@ -1,5 +1,5 @@
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 
-module.exports = function() {
-  return new Buffer(uuidv4()).toString('base64');
-};
+module.exports = function () {
+  return new Buffer(uuidv4()).toString('base64')
+}

@@ -2,9 +2,9 @@ export const CHANNELS = {
   LP: {
     CLEAR: 'lpClear',
     PAD: 'pad',
-    PAD_COLOR: 'lpPadColor'
+    PAD_COLOR: 'lpPadColor',
   },
   DMX: {
-    CLEAR: 'dmxClear'
-  }
+    CLEAR: 'dmxClear',
+  },
 }

@@ -1,14 +1,14 @@
-import React from "react";
-import ROUTES from "Constants/routes";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import ROUTES from 'Constants/routes'
+import { useNavigate } from 'react-router-dom'
 import {
   validateLicenseRequest,
   validateLicenseResponse,
-} from "secure-electron-license-keys";
+} from 'secure-electron-license-keys'
 
 class Nav extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       mobileMenuActive: false,
@@ -16,25 +16,25 @@ class Nav extends React.Component {
 
       // license-specific
       licenseValid: false,
-      allowedMajorVersions: "",
-      allowedMinorVersions: "",
-      appVersion: "",
-      licenseExpiry: "",
-    };
+      allowedMajorVersions: '',
+      allowedMinorVersions: '',
+      appVersion: '',
+      licenseExpiry: '',
+    }
 
-    this.toggleMenu = this.toggleMenu.bind(this);
-    this.toggleLicenseModal = this.toggleLicenseModal.bind(this);
-    this.navigate = this.navigate.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this)
+    this.toggleLicenseModal = this.toggleLicenseModal.bind(this)
+    this.navigate = this.navigate.bind(this)
   }
 
   componentWillUnmount() {
-    window.api.licenseKeys.clearRendererBindings();
+    window.api.licenseKeys.clearRendererBindings()
   }
 
   componentDidMount() {
     // Set up binding to listen when the license key is
     // validated by the main process
-    const _ = this;
+    const _ = this
 
     window.api.licenseKeys.onReceive(validateLicenseResponse, function (data) {
       // If the license key/data is valid
@@ -50,33 +50,33 @@ class Nav extends React.Component {
           allowedPatchVersions: data.patch,
           appVersion: data.appVersion,
           licenseExpiry: data.expire,
-        });
+        })
       } else {
         _.setState({
           licenseValid: false,
-        });
+        })
       }
-    });
+    })
   }
 
   toggleMenu(_event) {
     this.setState({
       mobileMenuActive: !this.state.mobileMenuActive,
-    });
+    })
   }
 
   toggleLicenseModal(_event) {
-    const previous = this.state.licenseModalActive;
+    const previous = this.state.licenseModalActive
 
     // Only send license request if the modal
     // is not already open
     if (!previous) {
-      window.api.licenseKeys.send(validateLicenseRequest);
+      window.api.licenseKeys.send(validateLicenseRequest)
     }
 
     this.setState({
       licenseModalActive: !this.state.licenseModalActive,
-    });
+    })
   }
 
   // Using a custom method to navigate because we
@@ -88,15 +88,15 @@ class Nav extends React.Component {
         mobileMenuActive: false,
       },
       function () {
-        this.props.navigate(url);
+        this.props.navigate(url)
       }
-    );
+    )
   }
 
   renderLicenseModal() {
     return (
       <div
-        className={`modal ${this.state.licenseModalActive ? "is-active" : ""}`}>
+        className={`modal ${this.state.licenseModalActive ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-content">
           {this.state.licenseValid ? (
@@ -104,16 +104,16 @@ class Nav extends React.Component {
               The license key for this product has been validated and the
               following versions of this app are allowed for your use:
               <div>
-                <strong>Major versions:</strong>{" "}
+                <strong>Major versions:</strong>{' '}
                 {this.state.allowedMajorVersions} <br />
-                <strong>Minor versions:</strong>{" "}
+                <strong>Minor versions:</strong>{' '}
                 {this.state.allowedMinorVersions} <br />
-                <strong>Patch versions:</strong>{" "}
+                <strong>Patch versions:</strong>{' '}
                 {this.state.allowedPatchVersions} <br />
-                <strong>Expires on:</strong>{" "}
+                <strong>Expires on:</strong>{' '}
                 {!this.state.licenseExpiry
-                  ? "never!"
-                  : this.state.licenseExpiry}{" "}
+                  ? 'never!'
+                  : this.state.licenseExpiry}{' '}
                 <br />(
                 <em>
                   App version:
@@ -128,7 +128,7 @@ class Nav extends React.Component {
               <div>The license key is not valid.</div>
               <div>
                 If you'd like to create a license key, follow these steps:
-                <ol style={{ marginLeft: "30px" }}>
+                <ol style={{ marginLeft: '30px' }}>
                   <li>
                     Install this package globally (
                     <strong>npm i secure-electron-license-keys-cli -g</strong>).
@@ -137,7 +137,7 @@ class Nav extends React.Component {
                     Run <strong>secure-electron-license-keys-cli</strong>.
                   </li>
                   <li>
-                    Copy <strong>public.key</strong> and{" "}
+                    Copy <strong>public.key</strong> and{' '}
                     <strong>license.data</strong> into the <em>root</em> folder
                     of this app.
                   </li>
@@ -146,7 +146,7 @@ class Nav extends React.Component {
                   </li>
                   <li>
                     If you'd like to further customize your license keys, copy
-                    this link into your browser:{" "}
+                    this link into your browser:{' '}
                     <a href="https://github.com/reZach/secure-electron-license-keys-cli">
                       https://github.com/reZach/secure-electron-license-keys-cli
                     </a>
@@ -162,7 +162,7 @@ class Nav extends React.Component {
           aria-label="close"
           onClick={this.toggleLicenseModal}></button>
       </div>
-    );
+    )
   }
 
   render() {
@@ -175,7 +175,7 @@ class Nav extends React.Component {
           <a
             role="button"
             className={`navbar-burger ${
-              this.state.mobileMenuActive ? "is-active" : ""
+              this.state.mobileMenuActive ? 'is-active' : ''
             }`}
             data-target="navbarBasicExample"
             aria-label="menu"
@@ -189,7 +189,7 @@ class Nav extends React.Component {
         <div
           id="navbarBasicExample"
           className={`navbar-menu ${
-            this.state.mobileMenuActive ? "is-active" : ""
+            this.state.mobileMenuActive ? 'is-active' : ''
           }`}>
           <div className="navbar-start">
             <a
@@ -250,13 +250,13 @@ class Nav extends React.Component {
           </div>
         </div>
       </nav>
-    );
+    )
   }
 }
 
-function WithNavigate(props){
-  const navigate = useNavigate();
+function WithNavigate(props) {
+  const navigate = useNavigate()
   return <Nav {...props} navigate={navigate} />
 }
 
-export default WithNavigate;
+export default WithNavigate

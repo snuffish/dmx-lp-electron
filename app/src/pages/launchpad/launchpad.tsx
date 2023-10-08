@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core"
 import Pad from "Components/Pad"
 import { CHANNELS } from "Constants/ipc"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { createContext } from "react"
 
 const SliderComponent = () => {
@@ -18,20 +18,21 @@ const LaunchpadContext = createContext({
 })
 
 const Launchpad = (props: any) => {
-  window.api.send(CHANNELS.LP.CLEAR)  
+  window.api.send(CHANNELS.LP.CLEAR)
+  
+  const { components } = useContext(LaunchpadContext)
 
-  console.log("DSDS")
+  console.log("COMP=>", components)
 
   return (
     <>
-      DJDKASHDKJSA
-       {/* {createGrid().map((row) => (
+       {createGrid().map((row) => (
         <Grid container>
           {row.map((pad) => (
             <Grid item>{pad}</Grid>
           ))}
         </Grid>
-      ))} */}
+      ))}
     </>
   )
 }

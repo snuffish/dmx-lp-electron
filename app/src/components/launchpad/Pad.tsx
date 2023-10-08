@@ -1,8 +1,9 @@
 import { Paper, styled } from '@material-ui/core'
 import { CHANNELS } from 'Constants/ipc'
+import { LaunchpadContext } from 'Pages/launchpad/launchpad'
 import { changeColor, setPressed } from 'Redux/components/pad/padActions'
 import { ColorOff, randomRGB, rgbToHex } from 'Utils/color'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 type Props = { x: number; y: number }
@@ -37,7 +38,8 @@ const Pad = ({ x, y }: Props) => {
   }, [isPressed])
 
   const onClick = () => {
-    dispatch(changeColor(button, ColorOff))
+    console.log("DDDDD=>>>", components)
+    // dispatch(changeColor(button, ColorOff))
   }
 
   const onMouseEnter = () => {

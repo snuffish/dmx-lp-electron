@@ -1,4 +1,4 @@
-import Pad from "Components/Pad"
+import Pad from "Components/launchpad/Pad"
 
 export const getAllButtons = () => {
   let buttons: number[] = []

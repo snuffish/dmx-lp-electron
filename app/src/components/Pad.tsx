@@ -28,11 +28,11 @@ const Pad = ({ x, y }: Props) => {
   useEffect(() => {
     // console.log('INVOKE PRESSED =>', button, 'STATE: ', isPressed)
     if (isPressed) {
-      // dispatch(changeColor(button, randomRGB()))
+      dispatch(changeColor(button, randomRGB()))
       return
     }
     if (!isPressed) {
-      // setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
+      setTimeout(() => dispatch(changeColor(button, ColorOff)), 1000)
     }
   }, [isPressed])
 

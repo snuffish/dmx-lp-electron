@@ -1,8 +1,9 @@
 import { Grid } from '@material-ui/core'
 import Pad from 'Components/Pad'
-import Slider from 'Components/Slider'
+import SliderComponent from 'Components/SliderComponent'
 import Test from 'Components/Test'
 import { CHANNELS } from 'Constants/ipc'
+import { getGridRow } from 'Utils/grid'
 import React, { createContext } from 'react'
 
 const createGrid = () => {
@@ -32,14 +33,10 @@ const Launchpad = ({ component }: Props) => {
 
   return (
     <>
-      <Slider buttonMap={SliderButtonMapping.buttons}/>
-      {createGrid().map((row) => (
-        <Grid container>
-          {row.map((pad) => (
-            <Grid item>{pad}</Grid>
-          ))}
-        </Grid>
-      ))}
+      <SliderComponent buttons={getGridRow(1)}/>
+      <SliderComponent buttons={getGridRow(3)}/>
+      <SliderComponent buttons={getGridRow(5)}/>
+      <SliderComponent buttons={getGridRow(7)}/>
       <Test />
     </>
   )

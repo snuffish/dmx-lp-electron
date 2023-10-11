@@ -7,18 +7,16 @@ type Props = { buttons: number[] }
 const SliderComponent = ({ buttons }: Props) => {
   const [sliderValue, setSliderValue] = useState(0)
 
-  useEffect(() => {
-    let value = sliderValue
-    for (const button of buttons) {
-      if (value >= 255) {
-        setButtonColor(button, [0, 255, 0])
-      } else {
-        value = value < 0 ? 0 : value
-        setButtonColor(button, [0, value, 0])
-      }
-      value -= 255
+  let value = sliderValue
+  for (const button of buttons) {
+    if (value >= 255) {
+      setButtonColor(button, [0, 255, 0])
+    } else {
+      value = value < 0 ? 0 : value
+      setButtonColor(button, [0, value, 0])
     }
-  }, [sliderValue])
+    value -= 255
+  }
 
   return <>
     <Slider

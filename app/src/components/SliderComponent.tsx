@@ -15,7 +15,7 @@ const SliderComponent = ({ buttons }: Props) => {
         setButtonColor(button, [0, 255, 0])
       } else {
         value = value < 0 ? 0 : value
-        setButtonColor(button, [0, Math.ceil(value), 0])
+        setButtonColor(button, [0, value, 0])
       }
       value -= 255
     }

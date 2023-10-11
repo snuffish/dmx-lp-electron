@@ -4,8 +4,7 @@ import { CHANNELS } from 'Constants/ipc'
 import { getGridRow } from 'Utils/grid'
 import React from 'react'
 
-type Props = { component: any }
-const Launchpad = ({ component }: Props) => {
+const Launchpad = (props: any) => {
   // @ts-ignore
   window.api.send(CHANNELS.LP.CLEAR)
 

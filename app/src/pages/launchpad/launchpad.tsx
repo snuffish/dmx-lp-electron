@@ -1,7 +1,6 @@
-import { Grid } from '@material-ui/core'
+import Debug from 'Components/Debug'
 import Pad from 'Components/Pad'
 import SliderComponent from 'Components/SliderComponent'
-import Test from 'Components/Test'
 import { CHANNELS } from 'Constants/ipc'
 import { getGridRow } from 'Utils/grid'
 import React, { createContext } from 'react'
@@ -37,7 +36,7 @@ const Launchpad = ({ component }: Props) => {
       <SliderComponent buttons={getGridRow(3)}/>
       <SliderComponent buttons={getGridRow(5)}/>
       <SliderComponent buttons={getGridRow(7)}/>
-      <Test />
+      <Debug />
     </>
   )
 }

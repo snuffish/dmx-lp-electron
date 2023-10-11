@@ -1,7 +1,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 
-const TestComponent = () => {
+const Debug = () => {
   const buttons = useSelector((state: any) => state.pad.buttons)
 
   return (
@@ -18,4 +18,4 @@ const TestComponent = () => {
   )
 }
 
-export default TestComponent
+export default Debug

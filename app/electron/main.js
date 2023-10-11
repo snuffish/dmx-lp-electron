@@ -344,10 +344,10 @@ const initDMX = async () => {
   // const animation = new Animation()
   //   .add({
   //     2: 255
-  //   }, 5000)
+  //   }, 5000, { easing: 'outBounce' })
   //   .add({
-  //     2: 50
-  //   },2500)
+  //     2: 0
+  //   },1000, { easing: 'inCirc' })
   //   .runLoop(universe)
 }
 

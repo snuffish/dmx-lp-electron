@@ -32,7 +32,7 @@ const {
   RgbColor,
   colors: { colorFromRGB },
 } = require('launchpad.js')
-const { DMX, EnttecUSBDMXProDriver, UniverseData } = require('dmx-ts')
+const { DMX, EnttecUSBDMXProDriver, UniverseData, Animation } = require('dmx-ts')
 
 // WebSocket
 const { WebSocketServer } = require('ws')
@@ -331,7 +331,7 @@ app.on('web-contents-created', (event, contents) => {
 })
 
 const initDMX = async () => {
-  const serialPort = 'COM4'
+  const serialPort = 'COM3'
   const dmxSpeed = 40
 
   dmx = new DMX()
@@ -340,6 +340,15 @@ const initDMX = async () => {
   universe = await dmx.addUniverse('universe1', driver)
 
   universe.updateAll(0)
+
+  // const animation = new Animation()
+  //   .add({
+  //     2: 255
+  //   }, 5000)
+  //   .add({
+  //     2: 50
+  //   },2500)
+  //   .runLoop(universe)
 }
 
 const initLP = async () => {
@@ -350,7 +359,7 @@ const initLP = async () => {
   })
 }
 
-// initDMX()
+initDMX()
 initLP()
 
 lp.on('buttonDown', (button) => {

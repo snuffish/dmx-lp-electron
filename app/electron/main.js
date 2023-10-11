@@ -25,6 +25,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const port = 40992 // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`
 
+// LP
 const {
   autoDetect,
   ILaunchpad,
@@ -33,6 +34,22 @@ const {
 } = require('launchpad.js')
 const { DMX, EnttecUSBDMXProDriver, UniverseData } = require('dmx-ts')
 
+// WebSocket
+const { WebSocketServer } = require('ws')
+const wss = new WebSocketServer({ port: 8080 });
+
+wss.on('connection', (ws) => {
+  console.log('Renderer process connected via WebSocket!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+  ws.on('error', console.error);
+
+  ws.on('message', function message(data) {
+    console.log('received: %s', data);
+  });
+  
+  ws.send("MAIN SAYING HI!")
+})
+
 let win
 let menuBuilder
 
@@ -40,6 +57,10 @@ let lp
 
 let dmx
 let universe
+
+async function initWebSocket() {
+  
+}
 
 async function createWindow() {
   if (!isDev) {
@@ -216,7 +237,10 @@ protocol.registerSchemesAsPrivileged([
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  initWebSocket()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -361,7 +385,7 @@ ipcMain.on('dmxUpdate', (event, universeData) => {
 })
 
 ipcMain.on('lpPadColor', (event, { button, color }) => {
-  console.log("COLOR => ", color)
+  // console.log("COLOR => ", color)
   try {
     lp.setButtonColor(parseInt(button), colorFromRGB(color))
   } catch (ex) {

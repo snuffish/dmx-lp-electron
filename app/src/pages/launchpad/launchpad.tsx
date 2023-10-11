@@ -11,9 +11,13 @@ const Launchpad = (props: any) => {
   return (
     <>
       <SliderComponent buttons={getGridRow(1)}/>
+      <SliderComponent buttons={getGridRow(2)}/>
       <SliderComponent buttons={getGridRow(3)}/>
+      <SliderComponent buttons={getGridRow(4)}/>
       <SliderComponent buttons={getGridRow(5)}/>
+      <SliderComponent buttons={getGridRow(6)}/>
       <SliderComponent buttons={getGridRow(7)}/>
+      <SliderComponent buttons={getGridRow(8)}/>
       <Debug />
     </>
   )

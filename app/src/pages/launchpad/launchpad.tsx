@@ -1,9 +1,10 @@
+import { Box, Container } from '@material-ui/core'
 import Debug from 'Components/Debug'
 import Pad from 'Components/Pad'
 import SliderComponent from 'Components/SliderComponent'
 import { CHANNELS } from 'Constants/ipc'
 import { getGridRow } from 'Utils/grid'
-import React, { createContext } from 'react'
+import React from 'react'
 
 const createGrid = () => {
   const rows = []
@@ -19,11 +20,6 @@ const createGrid = () => {
   return rows
 }
 
-const SliderButtonMapping = {
-  buttons: [11, 21, 31, 41, 51, 61, 71, 81]
-}
-
-const GridContext = createContext('Components')
 
 type Props = { component: any }
 const Launchpad = ({ component }: Props) => {

@@ -1,9 +1,13 @@
-import { randomRGB } from './app/src/utils/color';
-import { getAllButtons } from './app/src/utils/index';
+// @ts-nocheck
+const data = { '1': 255, '2': 0, '3': 0 }
 
-const buttons = getAllButtons()
+const newData = {};
 
-const data = getAllButtons()
-  .reduce((acc, value) => ({ ...acc, [value]: { color: randomRGB() }}), {})
+for (const key in data) {
+  if (data.hasOwnProperty(key)) {
+    const newKey = parseInt(key, 10);
+    newData[newKey] = data[key];
+  }
+}
 
-console.log(data)
+console.log(newData)

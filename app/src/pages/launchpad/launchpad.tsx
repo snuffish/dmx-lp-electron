@@ -10,14 +10,14 @@ const Launchpad = (props: any) => {
 
   return (
     <>
-      <SliderComponent buttons={getGridRow(1)}/>
-      <SliderComponent buttons={getGridRow(2)}/>
-      <SliderComponent buttons={getGridRow(3)}/>
-      <SliderComponent buttons={getGridRow(4)}/>
-      <SliderComponent buttons={getGridRow(5)}/>
-      <SliderComponent buttons={getGridRow(6)}/>
-      <SliderComponent buttons={getGridRow(7)}/>
-      <SliderComponent buttons={getGridRow(8)}/>
+      <SliderComponent sector={1} buttons={getGridRow(1)} color='RED'/>
+      <SliderComponent sector={2} buttons={getGridRow(2)} color='GREEN'/>
+      <SliderComponent sector={3} buttons={getGridRow(3)} color='BLUE'/>
+      <SliderComponent sector={4} buttons={getGridRow(4)} color='RED'/>
+      <SliderComponent sector={5} buttons={getGridRow(5)} color='GREEN'/>
+      <SliderComponent sector={6} buttons={getGridRow(6)} color='BLUE'/>
+      <SliderComponent sector={7} buttons={getGridRow(7)} color='RED'/>
+      <SliderComponent sector={8} buttons={getGridRow(8)} color='GREEN'/>
       <Debug />
     </>
   )

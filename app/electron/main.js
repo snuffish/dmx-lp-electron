@@ -331,7 +331,7 @@ app.on('web-contents-created', (event, contents) => {
 })
 
 const initDMX = async () => {
-  const serialPort = 'COM3'
+  const serialPort = '/dev/cu.usbserial-A5065QFW'
   const dmxSpeed = 40
 
   dmx = new DMX()
@@ -385,12 +385,9 @@ ipcMain.on('lpClear', () => {
 })
 
 ipcMain.on('dmxClear', () => universe.updateAll(0))
-ipcMain.on('dmxUpdate', (event, universeData) => {
+ipcMain.on('dmxUpdate', (event, universeData ) => {
   console.log(`dmxUpdate =>`, universeData)
-  // universe.update({
-  //   1: 100
-  // })
-  // universe.update(universeData)
+  universe.update(universeData)
 })
 
 ipcMain.on('lpPadColor', (event, { button, color }) => {

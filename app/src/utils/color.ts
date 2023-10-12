@@ -18,3 +18,9 @@ const componentToHex = (c: number): string => {
 
 export const rgbToHex = ([r, g, b]: RgbColor) =>
   '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
+
+export const COLORS = {
+  RED: [255, 0, 0],
+  GREEN: [0, 255, 0],
+  BLUE: [0, 0, 255]
+}

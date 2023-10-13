@@ -1,14 +1,14 @@
 import { Slider } from '@material-ui/core'
-import { setButtonColor } from 'Utils/grid'
+import { setButtonColor } from 'Utils/launchpad'
 import React, { useEffect, useState } from 'react'
-import usePadPressed from '../hooks/usePadPressed'
+import usePadPressed from 'Hooks/usePadPressed'
 import { CHANNELS } from 'Constants/ipc'
 import { COLORS } from 'Utils/color'
 import { RgbColor } from 'launchpad.js'
+import { ReceiveProps } from 'Types/index'
+import { updateDMX } from 'Utils/dmx'
 
-type Colors = 'RED' |  'GREEN' | 'BLUE'
-type ReceiveProps = { event: string, button: number }
-type Props = { buttons: number[], sector: number, color: Colors }
+type Props = { buttons: number[], sector: number, color: RgbColor }
 
 const Sectors = {
   1: [1, 2, 3],
@@ -29,18 +29,19 @@ const SliderComponent = ({ buttons, sector, color }: Props) => {
 
   const [sliderValue, setSliderValue] = useState(0)
 
-  window.api.receive(CHANNELS.LP.PAD, ({ event, button }: ReceiveProps) => {
+  window.api.receive(CHANNELS.LP.PAD, ({ button }: ReceiveProps) => {
     // @ts-ignore
     if (buttons.includes(button.nr)) {
+      console.log("BTN => ", button)
       // @ts-ignore
       const index = buttons.indexOf(button.nr) + 1
       if (index !== 0) {
         setSliderValue(max * index)
       }
     }
-
-    console.log("BTN => ", button)
   })
+
+  console.log("API => ",window.api)
 
   let value = sliderValue
   for (const button of buttons) {
@@ -51,19 +52,19 @@ const SliderComponent = ({ buttons, sector, color }: Props) => {
       newValue = value < 0 ? 0 : value
     }
 
-    let rgbColor: RgbColor
-    let colorAtIndex: number
+    let rgbColor: RgbColor = COLORS.OFF
+    let colorAtIndex: number = -1
 
     switch (color) {
-      case 'RED':
+      case COLORS.RED:
         rgbColor = [newValue, 0, 0]
         colorAtIndex = 0
         break
-      case 'GREEN':
+      case COLORS.GREEN:
         rgbColor = [0, newValue, 0]
         colorAtIndex = 1
         break
-      case 'BLUE':
+      case COLORS.BLUE:
         rgbColor = [0, 0, newValue]
         colorAtIndex = 2
         break
@@ -71,17 +72,16 @@ const SliderComponent = ({ buttons, sector, color }: Props) => {
 
     setButtonColor(button, rgbColor)
 
-    let data = {}
+    let data: { [key: number]: number } = {}
     for (let i = 0; i < dmxChannels.length; i++) {
       let color = 0
       if (colorAtIndex === i) {
         color = (sliderValue / sliderMax) * max
       }
-      // @ts-ignore
+
       data[dmxChannels[i]] = color
     }
-    console.log("DSDSDS",data)
-    window.api.send('dmxUpdate', data)
+    updateDMX(data)
 
     value -= 255
   }
@@ -93,7 +93,6 @@ const SliderComponent = ({ buttons, sector, color }: Props) => {
       max={sliderMax}
       defaultValue={0}
       value={sliderValue}
-      // step={255}
       onChange={(e: any, value: any) => setSliderValue(value)}
     />
   </>

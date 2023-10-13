@@ -31,7 +31,9 @@
           "Constants/*": ["./app/src/constants/*"],
           "Pages/*": ["./app/src/pages/*"],
           "Utils/*": ["./app/src/utils/*"],
-          "Images/*": ["./resources/images/*"]
+          "Images/*": ["./resources/images/*"],
+          "Types/*": ["./app/src/types/*"],
+          "Hooks/*": ["./app/src/hooks/*"]
         }
     },
     "include": [

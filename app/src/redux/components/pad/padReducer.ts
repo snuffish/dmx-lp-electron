@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ColorOff, randomRGB } from 'Utils/color'
+import { COLORS, randomRGB } from 'Utils/color'
 import { getAllButtons } from 'Utils/index'
 import { NAME } from './padTypes'
 import { RgbColor } from 'launchpad.js'
@@ -11,7 +11,7 @@ const padReducer = createSlice({
     buttons: getAllButtons().reduce(
       (acc, value) => ({
         ...acc,
-        [value]: { color: JSON.stringify(ColorOff), isPressed: false },
+        [value]: { color: JSON.stringify(COLORS.OFF), isPressed: false },
       }),
       {}
     ),

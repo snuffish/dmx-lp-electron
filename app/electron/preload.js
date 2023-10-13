@@ -13,17 +13,12 @@ const API = {
   contextMenu: ContextMenu.preloadBindings(ipcRenderer),
   licenseKeys: SecureElectronLicenseKeys.preloadBindings(ipcRenderer),
   send: (channel, data) => {
-    // let validChannels = ["toMain"];
-    // if (validChannels.includes(channel)) {
     ipcRenderer.send(channel, data)
-    // }
+    return true
   },
   receive: (channel, func) => {
-    // let validChannels = ["fromMain"];
-    // if (validChannels.includes(channel)) {
-    // Deliberately strip event as it includes `sender`
     ipcRenderer.on(channel, (event, ...args) => func(...args))
-    // }
+    return true
   },
 }
 

@@ -34,22 +34,6 @@ const {
 } = require('launchpad.js')
 const { DMX, EnttecUSBDMXProDriver, UniverseData, Animation } = require('dmx-ts')
 
-// WebSocket
-const { WebSocketServer } = require('ws')
-const wss = new WebSocketServer({ port: 8080 });
-
-wss.on('connection', (ws) => {
-  console.log('Renderer process connected via WebSocket!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
-  ws.on('error', console.error);
-
-  ws.on('message', function message(data) {
-    console.log('received: %s', data);
-  });
-  
-  ws.send("MAIN SAYING HI!")
-})
-
 let win
 let menuBuilder
 
@@ -57,10 +41,6 @@ let lp
 
 let dmx
 let universe
-
-async function initWebSocket() {
-  
-}
 
 async function createWindow() {
   if (!isDev) {
@@ -239,7 +219,6 @@ protocol.registerSchemesAsPrivileged([
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow()
-  initWebSocket()
 })
 
 // Quit when all windows are closed.
@@ -353,48 +332,44 @@ const initDMX = async () => {
 
 const initLP = async () => {
   lp = autoDetect({ debug: false })
-
-  lp.once('ready', (device) => {
-    console.log(`Connected to ${device}`)
-  })
 }
 
 initDMX()
 initLP()
 
-lp.on('buttonDown', (button) => {
-  console.log(`Pressed => `, button)
 
-  if (button.nr === 19) {
-    lp.allOff()
-    return
-  }
+lp.once('ready', (device) => console.log(`Connected to ${device}`))
+  .on('buttonDown', (button) => {
+    console.log(`Pressed => `, button)
 
-  win.webContents.send('pad', { event: 'BUTTON_DOWN', button })
-})
+    win.webContents.send('pad', { event: 'BUTTON_DOWN', button })
+  })
+  .on('buttonUp', (button) => {
+    console.log('Released => ', button)
 
-lp.on('buttonUp', (button) => {
-  console.log('Released => ', button)
-
-  win.webContents.send('pad', { event: 'BUTTON_UP', button })
-})
+    win.webContents.send('pad', { event: 'BUTTON_UP', button })
+  })
 
 ipcMain.on('lpClear', () => {
   console.log('CLEAR')
   lp.allOff()
 })
 
-ipcMain.on('dmxClear', () => universe.updateAll(0))
-ipcMain.on('dmxUpdate', (event, universeData ) => {
-  console.log(`dmxUpdate =>`, universeData)
-  universe.update(universeData)
-})
+// DMX
+ipcMain
+  .on('dmxClear', () => universe.updateAll(0))
+  .on('dmxUpdate', (event, universeData ) => {
+    console.log(`dmxUpdate =>`, universeData)
+    universe.update(universeData)
+  })
+  .on('dmxUpdateAll', (event, value) => {
+    universe.updateAll(value)
+  })
+  .on('lpPadColor', (event, { button, color }) => {
+    try {
+      lp.setButtonColor(parseInt(button), colorFromRGB(color))
+    } catch (ex) {
+      console.log("EX => ", ex)
+    }
+  })
 
-ipcMain.on('lpPadColor', (event, { button, color }) => {
-  // console.log("COLOR => ", color)
-  try {
-    lp.setButtonColor(parseInt(button), colorFromRGB(color))
-  } catch (ex) {
-    console.log("EX => ", ex)
-  }
-})

@@ -5,6 +5,8 @@ export const CHANNELS = {
     PAD_COLOR: 'lpPadColor',
   },
   DMX: {
+    UPDATE: 'dmxUpdate',
+    UPDATE_ALL: 'dmxUpdateAll',
     CLEAR: 'dmxClear',
   },
 }

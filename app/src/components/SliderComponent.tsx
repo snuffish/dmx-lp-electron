@@ -13,7 +13,8 @@ type Props = {
   row: IntRange<1, 9>,
   orientation?: GridRowOrientation,
   sector: number,
-  color?: RgbColor
+  color?: RgbColor,
+  reverse?: boolean
 }
 
 const Sectors: Record<number, [number, number, number]> = {
@@ -27,8 +28,9 @@ const Sectors: Record<number, [number, number, number]> = {
   8: [22, 23, 24]
 }
 
-const SliderComponent = ({ row, orientation = 'vertical', sector, color }: Props) => {
-  const buttons = getGridRow(row, orientation)
+const SliderComponent = ({ row, orientation = 'vertical', sector, color, reverse = false }: Props) => {
+  console.log("REVERSE => ", reverse)
+  const buttons = reverse ? getGridRow(row, orientation).reverse() : getGridRow(row, orientation)
   const sliderMax = 2305
   const max = 255
   const dmxChannels = Sectors[sector]

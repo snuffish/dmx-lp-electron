@@ -32,8 +32,12 @@ export const GridAllButtons = Object.entries(horizontal).flatMap(([index, value]
 
 export const GridLayout = { horizontal, vertical }
 
-export const getGridRow = (row: IntRange<1, 9>, orientation: GridRowOrientation = 'vertical') => GridLayout[orientation][row]
+export const getGridRow = (row: IntRange<1, 9>, orientation: GridRowOrientation = 'vertical'): number[] => GridLayout[orientation][row]
 
 export const setButtonColor = (button: number, color: RgbColor) => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color })
 
 export const clearGrid = () => GridAllButtons.map(button => setButtonColor(button, COLORS.OFF))
+
+// Export to window global scope
+window.lpClear = clearGrid
+window.lpSetButtonColor = setButtonColor

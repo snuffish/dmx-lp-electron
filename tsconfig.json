@@ -33,7 +33,8 @@
           "Utils/*": ["./app/src/utils/*"],
           "Images/*": ["./resources/images/*"],
           "Types/*": ["./app/src/types/*"],
-          "Hooks/*": ["./app/src/hooks/*"]
+          "Hooks/*": ["./app/src/hooks/*"],
+          "Config/*": ["./app/src/config/*"]
         }
     },
     "include": [

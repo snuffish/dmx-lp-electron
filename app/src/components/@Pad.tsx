@@ -36,7 +36,7 @@ const Pad = ({ x, y }: Props) => {
     }
   }, [isPressed])
 
-  const onClick = () => {
+  const onPressed = () => {
     // dispatch(changeColor(button, ColorOff))
   }
 
@@ -65,7 +65,7 @@ const Pad = ({ x, y }: Props) => {
 
   return (
     <Item
-      onClick={onClick}
+      onClick={onPressed}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}>
       {button}

@@ -12,7 +12,9 @@
                     "Redux": "./app/src/redux",
                     "I18n": "./app/localization",
                     "Images": "./resources/images",
-                    "Utils": "./app/src/utils"
+                    "Utils": "./app/src/utils",
+                    "Config": "./app/src/config",
+                    "Hooks": "./app/src/hooks"
                 }
             },
             "@babel/plugin-syntax-dynamic-import"

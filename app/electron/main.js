@@ -256,6 +256,9 @@ ipcMain
       console.log("EX => ", ex)
     }
   })
+  .on('lpFlashButton', (event, { button, fromColor, toColor}) => {
+    lp.flash(button, fromColor, toColor)
+  })
 
 // DMX
 ipcMain

@@ -8,7 +8,12 @@ declare global {
     api: {
       send: (channel: string, data?: any) => boolean
       [key: string]: any
-    }
+    },
+    lpClear: Function
+    lpSetButtonColor: Function
+    dmxClear: Function
+    dmxUpdate: Function
+    dmxUpdateAll: Function
   }
 }
 

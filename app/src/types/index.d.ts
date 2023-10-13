@@ -1,6 +1,7 @@
+import { BUTTON_DOWN, BUTTON_UP } from './../constants/events';
 import { Button, ButtonIn } from "launchpad.js"
 
-export {}
+export { }
 
 declare global {
   interface Window {
@@ -11,8 +12,9 @@ declare global {
   }
 }
 
+export type ButtonEvent = typeof BUTTON_DOWN | typeof BUTTON_UP
 
-export type ReceiveProps = { event: string, button: number }
+export type ReceiveProps = { event: ButtonEvent, button: number }
 
 type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
   ? Acc[number]

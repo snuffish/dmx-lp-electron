@@ -1,6 +1,8 @@
 import { Slider } from '@material-ui/core'
+import { BUTTON_UP } from 'Constants/events'
 import { CHANNELS } from 'Constants/ipc'
 import { IntRange, ReceiveProps } from 'Types/index'
+import { LogoRightTopCorner, RightPanel } from 'Utils/Panel'
 import { COLORS } from 'Utils/color'
 import { updateDMX } from 'Utils/dmx'
 import { GridRowOrientation, getGridRow, setButtonColor } from 'Utils/launchpad'
@@ -11,7 +13,7 @@ type Props = {
   row: IntRange<1, 9>,
   orientation?: GridRowOrientation,
   sector: number,
-  color: RgbColor
+  color?: RgbColor
 }
 
 const Sectors: Record<number, [number, number, number]> = {
@@ -33,8 +35,13 @@ const SliderComponent = ({ row, orientation = 'vertical', sector, color }: Props
 
   const [sliderValue, setSliderValue] = useState(0)
 
-  window.api.receive(CHANNELS.LP.PAD, ({ button }: ReceiveProps) => {
-    if (button === 19) {
+  window.api.receive(CHANNELS.LP.PAD, ({ event, button }: ReceiveProps) => {
+    if (event === BUTTON_UP) {
+      setButtonColor(LogoRightTopCorner, COLORS.OFF)
+      return
+    }
+
+    if (button === RightPanel.STOP_SOLO_MUTE) {
       setSliderValue(0)
       return
     }
@@ -45,9 +52,9 @@ const SliderComponent = ({ row, orientation = 'vertical', sector, color }: Props
         setSliderValue(max * index)
       }
     }
-  })
 
-  console.log("API => ",window.api)
+    setButtonColor(LogoRightTopCorner, [0,50,75])
+  })
 
   let value = sliderValue
   for (const button of buttons) {
@@ -81,15 +88,14 @@ const SliderComponent = ({ row, orientation = 'vertical', sector, color }: Props
     const data: Record<number, number> = {}
     for (let i = 0; i < dmxChannels.length; i++) {
       let color = 0
-      if (colorAtIndex === i) {
+      if (colorAtIndex === i)
         color = (sliderValue / sliderMax) * max
-      }
 
       data[dmxChannels[i]] = color
     }
     updateDMX(data)
 
-    value -= 255
+    value -= max
   }
 
   return <>

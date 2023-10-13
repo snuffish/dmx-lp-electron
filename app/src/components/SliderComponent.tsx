@@ -25,7 +25,7 @@ const Sectors: Record<number, [number, number, number]> = {
   8: [22, 23, 24]
 }
 
-const SliderComponent = ({ row, orientation, sector, color }: Props) => {
+const SliderComponent = ({ row, orientation = 'vertical', sector, color }: Props) => {
   const buttons = getGridRow(row, orientation)
   const sliderMax = 2305
   const max = 255
@@ -34,8 +34,12 @@ const SliderComponent = ({ row, orientation, sector, color }: Props) => {
   const [sliderValue, setSliderValue] = useState(0)
 
   window.api.receive(CHANNELS.LP.PAD, ({ button }: ReceiveProps) => {
+    if (button === 19) {
+      setSliderValue(0)
+      return
+    }
+
     if (buttons.includes(button)) {
-      // @ts-ignore
       const index = buttons.indexOf(button) + 1
       if (index !== 0) {
         setSliderValue(max * index)
@@ -90,7 +94,7 @@ const SliderComponent = ({ row, orientation, sector, color }: Props) => {
 
   return <>
     <Slider
-      orientation='vertical'
+      orientation={orientation}
       min={0}
       max={sliderMax}
       defaultValue={0}

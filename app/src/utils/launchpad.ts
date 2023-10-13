@@ -4,9 +4,9 @@ import { RgbColor } from "launchpad.js"
 import { COLORS } from "./color"
 
 type GridMappingProps = Record<number, number[]>
-export type GridRowOrientation = 'Horizontal' | 'Vertical'
+export type GridRowOrientation = 'horizontal' | 'vertical'
 
-const Horizontal: GridMappingProps = {
+const horizontal: GridMappingProps = {
   1: [11, 12, 13, 14, 15, 16, 17, 18],
   2: [21, 22, 23, 24, 25, 26, 27, 28],
   3: [31, 32, 33, 34, 35, 36, 37, 38],
@@ -17,7 +17,7 @@ const Horizontal: GridMappingProps = {
   8: [81, 82, 83, 84, 85, 86, 87, 88]
 }
 
-const Vertical: GridMappingProps = {
+const vertical: GridMappingProps = {
   1: [11, 21, 31, 41, 51, 61, 71, 81],
   2: [12, 22, 32, 42, 52, 62, 72, 82],
   3: [13, 23, 33, 43, 53, 63, 73, 83],
@@ -28,11 +28,11 @@ const Vertical: GridMappingProps = {
   8: [18, 28, 38, 48, 58, 68, 78, 88]
 }
 
-export const GridAllButtons = Object.entries(Horizontal).flatMap(([index, value]) => value)
+export const GridAllButtons = Object.entries(horizontal).flatMap(([index, value]) => value)
 
-export const GridLayout = { Horizontal, Vertical }
+export const GridLayout = { horizontal, vertical }
 
-export const getGridRow = (row: IntRange<1, 9>, orientation: GridRowOrientation = 'Vertical') => GridLayout[orientation][row]
+export const getGridRow = (row: IntRange<1, 9>, orientation: GridRowOrientation = 'vertical') => GridLayout[orientation][row]
 
 export const setButtonColor = (button: number, color: RgbColor) => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color })
 

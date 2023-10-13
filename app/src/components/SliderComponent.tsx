@@ -52,8 +52,6 @@ const SliderComponent = ({ row, orientation = 'vertical', sector, color }: Props
         setSliderValue(max * index)
       }
     }
-
-    setButtonColor(LogoRightTopCorner, [0,50,75])
   })
 
   let value = sliderValue

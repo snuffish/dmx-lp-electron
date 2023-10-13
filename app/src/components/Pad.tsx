@@ -1,3 +1,4 @@
+import { BUTTON_DOWN, BUTTON_UP } from 'Constants/events'
 import { CHANNELS } from 'Constants/ipc'
 import { ReceiveProps } from 'Types/index'
 import { COLORS } from 'Utils/color'
@@ -5,9 +6,14 @@ import { setButtonColor } from 'Utils/launchpad'
 import { RgbColor } from 'launchpad.js'
 import React, { useState } from 'react'
 
-type Props = { button: number, onClick?: Function, color?: RgbColor }
+type Props = {
+  button: number,
+  onClick?: Function,
+  onRelease?: Function,
+  color?: RgbColor
+}
 
-const Pad = ({ button, onClick, color }: Props) => {
+const Pad = ({ button, color, onClick, onRelease }: Props) => {
   const [rgbColor, setRgbColor] = useState(color ?? COLORS.OFF)
   
   setButtonColor(button, rgbColor)
@@ -16,7 +22,15 @@ const Pad = ({ button, onClick, color }: Props) => {
     if (_button !== button)
       return
 
-      onClick && onClick()
+      if (event === BUTTON_DOWN && onClick) {
+        onClick()
+        return
+      }
+      
+      if (event === BUTTON_UP && onRelease) {
+        onRelease()
+        return
+      }
   })
 
   return (

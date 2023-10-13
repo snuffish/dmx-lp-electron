@@ -9,5 +9,5 @@ export const CHANNELS = {
     UPDATE_ALL: 'dmxUpdateAll',
     GET_CHANNEL: 'dmxGetChannel',
     CLEAR: 'dmxClear',
-  },
+  }
 }

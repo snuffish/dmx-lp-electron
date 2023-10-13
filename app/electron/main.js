@@ -216,18 +216,9 @@ const initDMX = async () => {
   dmx = new DMX()
   const driver = new EnttecUSBDMXProDriver(serialPort, { dmxSpeed })
 
-  universe = await dmx.addUniverse('universe1', driver)
+  universe = await dmx.addUniverse('universe', driver)
 
   universe.updateAll(0)
-
-  // const animation = new Animation()
-  //   .add({
-  //     2: 255
-  //   }, 5000, { easing: 'outBounce' })
-  //   .add({
-  //     2: 0
-  //   },1000, { easing: 'inCirc' })
-  //   .runLoop(universe)
 }
 
 const initLP = async () => {

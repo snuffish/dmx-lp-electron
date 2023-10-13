@@ -10,6 +10,8 @@ import React from 'react'
 const Launchpad = (props: any) => {
   clearGrid()
 
+  const onReleaseEvent = () => clearGrid() && clearDMX()
+
   return (
     <>
       <SliderComponent row={1} sector={1} color={COLORS.RED}/>
@@ -20,7 +22,7 @@ const Launchpad = (props: any) => {
       <SliderComponent row={6} sector={6} color={COLORS.BLUE}/>
       <SliderComponent row={7} sector={7} color={COLORS.RED}/>
       <SliderComponent row={8} sector={8} color={COLORS.GREEN}/>
-      <Pad button={RightPanel.STOP_SOLO_MUTE} onClick={() => clearGrid() && clearDMX()} color={[50,50,50]}/>
+      <Pad button={RightPanel.STOP_SOLO_MUTE} color={[50,50,50]}/>
       <Debug />
     </>
   )

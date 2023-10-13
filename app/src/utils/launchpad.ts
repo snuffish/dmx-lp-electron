@@ -3,7 +3,7 @@ import { IntRange } from "Types/index"
 import { RgbColor } from "launchpad.js"
 import { COLORS } from "./color"
 
-type GridMappingProps = { [key: number]: number[] }
+type GridMappingProps = Record<number, number[]>
 export type GridRowOrientation = 'Horizontal' | 'Vertical'
 
 const Horizontal: GridMappingProps = {

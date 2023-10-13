@@ -1,3 +1,5 @@
+import { Button, ButtonIn } from "launchpad.js"
+
 export {}
 
 declare global {

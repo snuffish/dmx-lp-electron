@@ -12,8 +12,7 @@ const Pad = ({ padButton, onClick, color }: Props) => {
   setButtonColor(padButton, rgbColor)
 
   window.api.receive(CHANNELS.LP.PAD, ({ event, button }: ReceiveProps) => {
-    // @ts-ignore
-    if (button.nr !== padButton)
+    if (button !== padButton)
       return
 
       onClick && onClick()

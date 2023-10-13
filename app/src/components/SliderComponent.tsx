@@ -1,16 +1,20 @@
 import { Slider } from '@material-ui/core'
-import { setButtonColor } from 'Utils/launchpad'
-import React, { useEffect, useState } from 'react'
-import usePadPressed from 'Hooks/usePadPressed'
 import { CHANNELS } from 'Constants/ipc'
+import { IntRange, ReceiveProps } from 'Types/index'
 import { COLORS } from 'Utils/color'
-import { RgbColor } from 'launchpad.js'
-import { ReceiveProps } from 'Types/index'
 import { updateDMX } from 'Utils/dmx'
+import { GridRowOrientation, getGridRow, setButtonColor } from 'Utils/launchpad'
+import { RgbColor } from 'launchpad.js'
+import React, { useState } from 'react'
 
-type Props = { buttons: number[], sector: number, color: RgbColor }
+type Props = {
+  row: IntRange<1, 9>,
+  orientation?: GridRowOrientation,
+  sector: number,
+  color: RgbColor
+}
 
-const Sectors = {
+const Sectors: Record<number, [number, number, number]> = {
   1: [1, 2, 3],
   2: [4, 5, 6],
   3: [7, 8, 9],
@@ -21,20 +25,18 @@ const Sectors = {
   8: [22, 23, 24]
 }
 
-const SliderComponent = ({ buttons, sector, color }: Props) => {
+const SliderComponent = ({ row, orientation, sector, color }: Props) => {
+  const buttons = getGridRow(row, orientation)
   const sliderMax = 2305
   const max = 255
-  // @ts-ignore
   const dmxChannels = Sectors[sector]
 
   const [sliderValue, setSliderValue] = useState(0)
 
   window.api.receive(CHANNELS.LP.PAD, ({ button }: ReceiveProps) => {
-    // @ts-ignore
-    if (buttons.includes(button.nr)) {
-      console.log("BTN => ", button)
+    if (buttons.includes(button)) {
       // @ts-ignore
-      const index = buttons.indexOf(button.nr) + 1
+      const index = buttons.indexOf(button) + 1
       if (index !== 0) {
         setSliderValue(max * index)
       }
@@ -72,7 +74,7 @@ const SliderComponent = ({ buttons, sector, color }: Props) => {
 
     setButtonColor(button, rgbColor)
 
-    let data: { [key: number]: number } = {}
+    const data: Record<number, number> = {}
     for (let i = 0; i < dmxChannels.length; i++) {
       let color = 0
       if (colorAtIndex === i) {

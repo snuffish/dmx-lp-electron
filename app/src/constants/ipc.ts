@@ -7,6 +7,7 @@ export const CHANNELS = {
   DMX: {
     UPDATE: 'dmxUpdate',
     UPDATE_ALL: 'dmxUpdateAll',
+    GET_CHANNEL: 'dmxGetChannel',
     CLEAR: 'dmxClear',
   },
 }

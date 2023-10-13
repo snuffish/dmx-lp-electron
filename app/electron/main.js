@@ -338,32 +338,25 @@ initDMX()
 initLP()
 
 
+// Launchpad
 lp.once('ready', (device) => console.log(`Connected to ${device}`))
-  .on('buttonDown', (button) => {
+  .on('buttonDown', ({ nr }) => {
+    const button = nr
     console.log(`Pressed => `, button)
 
     win.webContents.send('pad', { event: 'BUTTON_DOWN', button })
   })
-  .on('buttonUp', (button) => {
+  .on('buttonUp', ({ nr }) => {
+    const button = nr
     console.log('Released => ', button)
 
     win.webContents.send('pad', { event: 'BUTTON_UP', button })
   })
 
-ipcMain.on('lpClear', () => {
-  console.log('CLEAR')
-  lp.allOff()
-})
-
-// DMX
 ipcMain
-  .on('dmxClear', () => universe.updateAll(0))
-  .on('dmxUpdate', (event, universeData ) => {
-    console.log(`dmxUpdate =>`, universeData)
-    universe.update(universeData)
-  })
-  .on('dmxUpdateAll', (event, value) => {
-    universe.updateAll(value)
+  .on('lpClear', () => {
+    console.log('CLEAR')
+    lp.allOff()
   })
   .on('lpPadColor', (event, { button, color }) => {
     try {
@@ -373,3 +366,17 @@ ipcMain
     }
   })
 
+// DMX
+ipcMain
+  .on('dmxClear', () => universe.updateAll(0))
+  .on('dmxUpdate', (event, universeData ) => {
+    universe.update(universeData)
+  })
+  .on('dmxUpdateAll', (event, value) => {
+    universe.updateAll(value)
+  })
+  .on('dmxGetChannel', (event, channel) => {
+    // @TODO: Implement this
+    // const value = universe.get(channel)
+    // return value
+  })

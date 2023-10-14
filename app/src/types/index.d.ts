@@ -1,5 +1,4 @@
-import { BUTTON_DOWN, BUTTON_UP } from './../constants/events';
-import { Button, ButtonIn } from "launchpad.js"
+import { BUTTON_DOWN, BUTTON_UP } from './../constants/events'
 
 export { }
 
@@ -26,3 +25,5 @@ type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] exte
   : Enumerate<N, [...Acc, Acc['length']]>
 
 export type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>
+
+export type Button = { button: number }

@@ -1,13 +1,10 @@
+import { Box } from '@material-ui/core'
 import Debug from 'Components/Debug'
-import Pad from 'Components/Pad'
-import SliderComponent from 'Components/SliderComponent'
-import { RightPanel } from 'Utils/Panel'
-import { COLORS } from 'Utils/color'
+import MotionTest from 'Components/MotionTest'
+import config from 'Config/snuffish'
 import { clearDMX } from 'Utils/dmx'
 import { clearGrid } from 'Utils/launchpad'
-import React, { useState } from 'react'
-import config from 'Config/snuffish'
-import { Box, Container } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 
 const Scenes = ({ children }: any) => {
   return <>
@@ -61,6 +58,7 @@ const Launchpad = (props: any) => {
   return (
     <>
       <Scenes>
+        <MotionTest/>
         {Object.keys(config.scenes).map(name => {
           const { components } = config.scenes[name]
 
@@ -70,11 +68,7 @@ const Launchpad = (props: any) => {
             </Scene>
           )
         })}
-        <Scene name='DSDSATTEEEEST'>
-          <Pad button={29} />
-          <Pad button={RightPanel.STOP_SOLO_MUTE} color={[50, 50, 50]} />
-          <Debug />
-        </Scene>
+        <Debug />
       </Scenes>
     </>
   )

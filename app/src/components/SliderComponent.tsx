@@ -6,13 +6,14 @@ import { LogoRightTopCorner, RightPanel } from 'Utils/Panel'
 import { COLORS } from 'Utils/color'
 import { updateDMX } from 'Utils/dmx'
 import { GridRowOrientation, getGridRow, setButtonColor } from 'Utils/launchpad'
+import { useMotionValue, useTransform, motion } from 'framer-motion'
 import { RgbColor } from 'launchpad.js'
 import React, { useState } from 'react'
 
 type Props = {
   row: IntRange<1, 9>,
   orientation?: GridRowOrientation,
-  sector: number,
+  sector?: number,
   color?: RgbColor,
   reverse?: boolean
 }
@@ -28,14 +29,14 @@ const Sectors: Record<number, [number, number, number]> = {
   8: [22, 23, 24]
 }
 
-const SliderComponent = ({ row, orientation = 'vertical', sector, color, reverse = false }: Props) => {
-  console.log("REVERSE => ", reverse)
+const SliderComponent = ({ row, orientation = 'vertical', sector = -1, color, reverse = false }: Props) => {
+  const [sliderValue, setSliderValue] = useState(0)
+
   const buttons = reverse ? getGridRow(row, orientation).reverse() : getGridRow(row, orientation)
   const sliderMax = 2305
   const max = 255
   const dmxChannels = Sectors[sector]
 
-  const [sliderValue, setSliderValue] = useState(0)
 
   window.api.receive(CHANNELS.LP.PAD, ({ event, button }: ReceiveProps) => {
     if (event === BUTTON_UP) {
@@ -98,15 +99,19 @@ const SliderComponent = ({ row, orientation = 'vertical', sector, color, reverse
     value -= max
   }
 
+  const onChangeHandler = (e: any, value: any) => setSliderValue(value)
+
   return <>
     <Slider
       orientation={orientation}
       min={0}
+      step={1}
       max={sliderMax}
       defaultValue={0}
       value={sliderValue}
-      onChange={(e: any, value: any) => setSliderValue(value)}
+      onChange={onChangeHandler}
     />
+
   </>
 }
 

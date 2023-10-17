@@ -48,6 +48,11 @@ const ledbar_24ch = {
 
 const motor_rotate = {
   components: [
+    // Clear
+    <Pad button={19} color={COLORS.WHITE} onPressed={() => window.dmxClear()}/>,
+
+    <SliderComponent row={8} orientation='horizontal' sector={1} color={COLORS.BLUE}/>,
+
     // Rotate  left
     <Pad button={11} color={COLORS.GREEN} onPressed={() => window.dmxUpdate({24: 127})}/>,
     // Rotate right

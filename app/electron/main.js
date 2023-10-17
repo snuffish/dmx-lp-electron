@@ -210,7 +210,7 @@ app.on('web-contents-created', (event, contents) => {
 })
 
 const initDMX = async () => {
-  const serialPort = '/dev/cu.usbserial-A5065QFW'
+  const serialPort = 'COM3'
   const dmxSpeed = 40
 
   dmx = new DMX()

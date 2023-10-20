@@ -111,7 +111,6 @@ const SliderComponent = ({ row, orientation = 'vertical', sector = -1, color, re
       value={sliderValue}
       onChange={onChangeHandler}
     />
-
   </>
 }
 

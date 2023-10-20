@@ -3,8 +3,7 @@ import SliderComponent from 'Components/SliderComponent'
 import { COLORS } from 'Utils/color'
 import React from 'react'
 import { Config } from '.'
-import { updateDMX } from 'Utils/dmx'
-import { setButtonColor } from 'Utils/launchpad'
+import { clearDMX, updateDMX } from 'Utils/dmx'
 
 const ledbar_26ch = {
   components: []
@@ -49,27 +48,27 @@ const ledbar_24ch = {
 const motor_rotate = {
   components: [
     // Clear
-    <Pad button={19} color={COLORS.WHITE} onPressed={() => window.dmxClear()}/>,
+    <Pad button={19} color={COLORS.WHITE} onPressed={() => clearDMX()}/>,
 
     <SliderComponent row={8} orientation='horizontal' sector={1} color={COLORS.BLUE}/>,
 
     // Rotate  left
-    <Pad button={11} color={COLORS.GREEN} onPressed={() => window.dmxUpdate({24: 127})}/>,
+    <Pad button={11} color={COLORS.GREEN} onPressed={() => updateDMX({24: 127})}/>,
     // Rotate right
-    <Pad button={12} color={COLORS.GREEN}  onPressed={() => window.dmxUpdate({24: 255})}/>,
+    <Pad button={12} color={COLORS.GREEN}  onPressed={() => updateDMX({24: 255})}/>,
     // Stop rotate
-    <Pad button={13} color={COLORS.WHITE} onPressed={() => window.dmxUpdate({24: 128})}/>,
+    <Pad button={13} color={COLORS.WHITE} onPressed={() => updateDMX({24: 128})}/>,
     // Change color to green
-    <Pad button={21} color={COLORS.GREEN} onPressed={() => window.dmxUpdate({22: 60})}/>,
+    <Pad button={21} color={COLORS.GREEN} onPressed={() => updateDMX({22: 60})}/>,
     // Change color to red
-    <Pad button={22} color={COLORS.RED} onPressed={() => window.dmxUpdate({22: 30})}/>,
+    <Pad button={22} color={COLORS.RED} onPressed={() => updateDMX({22: 30})}/>,
     // Strobe
-    <Pad button={31} color={COLORS.WHITE} onPressed={() => window.dmxUpdate({23: 250})} onRelease={() => window.dmxUpdate({23: 0})}/>,
+    <Pad button={31} color={COLORS.WHITE} onPressed={() => updateDMX({23: 250})} onRelease={() => updateDMX({23: 0})}/>,
 
     // Wash 1
-    <Pad button={18} color={COLORS.GREEN} onPressed={() => window.dmxUpdate({2: 100, 5: 100})}/>,
+    <Pad button={18} color={COLORS.GREEN} onPressed={() => updateDMX({2: 100, 5: 100})}/>,
     // Wash 2
-    <Pad button={17} color={COLORS.RED} onPressed={() => window.dmxUpdate({6: 100, 10: 50})}/>,
+    <Pad button={17} color={COLORS.RED} onPressed={() => updateDMX({6: 100, 10: 50})}/>,
 
     // Change color
     // <Pad button={73} color={COLORS.RED} onPressed={() => {

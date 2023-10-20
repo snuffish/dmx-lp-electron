@@ -6,6 +6,36 @@ import { COLORS } from "./color"
 type GridMappingProps = Record<number, number[]>
 export type GridRowOrientation = 'horizontal' | 'vertical'
 
+const Logo = 99
+
+const TopPanel = {
+  ArrowUp: 91,
+  ArrowDown: 92,
+  ArrowLeft: 93,
+  ArrowRight: 94,
+  Session: 95,
+  Drums: 96,
+  Keys: 97,
+  User: 98
+}
+
+const RightPanel = {
+  STOP_SOLO_MUTE: 19,
+  Arrow1: 29,
+  Arrow2: 39,
+  Arrow3: 49,
+  Arrow4: 59,
+  Arrow5: 69,
+  Arrow6: 79,
+  Arrow7: 89,
+}
+
+export const Grid = {
+  Logo,
+  TopPanel,
+  RightPanel
+}
+
 const horizontal: GridMappingProps = {
   1: [11, 12, 13, 14, 15, 16, 17, 18],
   2: [21, 22, 23, 24, 25, 26, 27, 28],

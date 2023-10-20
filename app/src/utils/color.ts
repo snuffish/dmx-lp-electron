@@ -17,7 +17,7 @@ const componentToHex = (c: number): string => {
 export const rgbToHex = ([r, g, b]: RgbColor) =>
   '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
 
-export const COLORS: Record<string, [number, number, number]> = {
+export const COLORS: Record<string, RgbColor> = {
   OFF: [0, 0, 0],
   RED: [255, 0, 0],
   GREEN: [0, 255, 0],

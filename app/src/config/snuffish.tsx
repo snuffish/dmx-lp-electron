@@ -17,7 +17,7 @@ const laser = {
 
 const ledbar_14ch = {
   components: [
-    <SliderComponent key='slider2' row={8} sector={2} color={COLORS.RED} />,
+    <SliderComponent row={8} sector={2} color={COLORS.RED} />,
     <Pad button={29} color={COLORS.RED} onPressed={() => {
       updateDMX({
         2: 255

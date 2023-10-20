@@ -2,9 +2,12 @@ import { Box } from '@material-ui/core'
 import Debug from 'Components/Debug'
 import MotionTest from 'Components/MotionTest'
 import config from 'Config/snuffish'
-import { clearDMX } from 'Utils/dmx'
+import { BUTTON_DOWN } from 'Constants/events'
+import { CHANNELS } from 'Constants/ipc'
+import { setPressed } from 'Redux/components/pad/padActions'
 import { clearGrid } from 'Utils/launchpad'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
 const Scenes = ({ children }: any) => {
   return <>
@@ -27,26 +30,13 @@ const Scene = ({ name, children }: any) => {
 }
 
 const Launchpad = (props: any) => {
-  const [timer, setTimer] = useState(0)
+  const dispatch = useDispatch()
+
+  window.api.receive(CHANNELS.LP.PAD, ({ event, button }: any) => {
+    dispatch(setPressed(button, event === BUTTON_DOWN ?? false))
+  })
 
   clearGrid()
-
-  const onReleaseEvent = () => clearGrid() && clearDMX()
-
-  // let components
-  // for (const name in config.scenes) {
-  //   components = config.scenes[name]
-  //   console.log("NAME => ", name)
-  //   console.log("COMPONENTS => ", components)
-  // }
-
-  // const data = Object.entries(config.scenes).reduce((acc: any, value: any) => {
-  //   const [ name, components ] = value
-  //   let newObj = acc
-  //   newObj.push(components)
-  //   return newObj
-  // }, [])
-  // console.log("DDDD",data)
 
   {
     Object.keys(config.scenes).map(sceneName => {

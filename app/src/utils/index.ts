@@ -1,7 +1,7 @@
 export const getAllButtons = () => {
   let buttons: number[] = []
-  for (let y = 1; y <= 8; y++) {
-    for (let x = 1; x <= 8; x++) {
+  for (let y = 1; y <= 9; y++) {
+    for (let x = 1; x <= 9; x++) {
       buttons.push(parseInt(`${x}${y}`))
     }
   }

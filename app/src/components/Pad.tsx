@@ -1,11 +1,9 @@
-import { BUTTON_DOWN } from 'Constants/events'
-import { CHANNELS } from 'Constants/ipc'
-import { setPressed as setPressedAction } from 'Redux/components/pad/padActions'
+import { changeColor } from 'Redux/components/pad/padActions'
 import { Button } from 'Types/index'
 import { setButtonColor } from 'Utils/launchpad'
 import { RgbColor } from 'launchpad.js'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 type Props = Button & {
   onPressed?: Function,
@@ -13,13 +11,13 @@ type Props = Button & {
   color?: RgbColor
 }
 
-const Pad = ({ button, color, onPressed: onPressed, onRelease }: Props) => {
+const Pad = ({ button, color, onPressed, onRelease }: Props) => {
   const dispatch = useDispatch()
-  const [isPressed, setPressed] = useState(false)
-  const [rgbColor, setRgbColor] = useState() as any
+  const isPressed = useSelector((state: any) => state.pad.buttons[button].isPressed)
+  const rgbColor = useSelector((state: any) => state.pad.buttons[button].color)
 
   useEffect(() => {
-    setRgbColor(color)
+    dispatch(changeColor(button, color as RgbColor))
   }, [])
 
   useEffect(() => {
@@ -31,15 +29,7 @@ const Pad = ({ button, color, onPressed: onPressed, onRelease }: Props) => {
     !isPressed && onRelease && onRelease()
   }, [isPressed])
   
-  window.api.receive(CHANNELS.LP.PAD, ({ event, button: btn }: any) => {
-    if (btn !== button) return
-    setPressed(event === BUTTON_DOWN  ?? false)
-    dispatch(setPressedAction(btn, event === BUTTON_DOWN ?? false))
-  })
-  
-  return (
-    <></>
-  )
+  return null
 }
 
 export default Pad

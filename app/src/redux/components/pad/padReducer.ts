@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { COLORS, randomRGB } from 'Utils/color'
+import { COLORS } from 'Utils/color'
 import { getAllButtons } from 'Utils/index'
 import { NAME } from './padTypes'
-import { RgbColor } from 'launchpad.js'
 
 const padReducer = createSlice({
   name: NAME,

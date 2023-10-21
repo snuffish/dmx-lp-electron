@@ -11,6 +11,7 @@ import { Config } from '.'
 import { useDispatch } from 'react-redux'
 import { changeTempo } from 'Redux/components/pad/padActions'
 import { useSelector } from 'react-redux'
+import { randomNumber } from 'Utils/math'
 
 // const laser = {
 //   components: [
@@ -185,6 +186,8 @@ import { useSelector } from 'react-redux'
 //   ]
 // }
 
+const rng = () => Math.floor(Math.random() * 255)
+
 window.tempo = 250
 
 let flashIntervalCache = []
@@ -199,9 +202,7 @@ const flashRandom = (button: number, startPos: number) => {
 
   const anim: AnimationProps = [
     {
-      1: 255
-    },
-    {
+      1: 255,
       [dmxRed]: r,
       [dmxGreen]: g,
       [dmxBlue]: b
@@ -231,6 +232,39 @@ const flashRandom = (button: number, startPos: number) => {
   dmxAnimation(anim, { loop: true })
 }
 
+const flashRandomColor = (button: number, color: 'red' | 'green' | 'blue', dmxChannel: number) => {
+  const [r, g, b] = [color === 'red' ? 255 : 0, color === 'green' ? 255 : 0, color === 'blue' ? 255 : 0]
+  const delay = window.tempo
+  console.log([r,g,b])
+
+  const anim: AnimationProps = [
+    {
+      1: 255,
+      [dmxChannel]: 255,  
+    },
+    {
+      delay
+    },
+    {
+      [dmxChannel]: 0
+    },
+    {
+      delay
+    }
+  ]
+
+  setButtonColor(button, [r, g, b])
+
+  let toggle = false
+  const flashInterval = setInterval(() => {
+    toggle = !toggle
+    setButtonColor(button, toggle ? COLORS.OFF : [r, g, b])
+  }, window.tempo)
+  flashIntervalCache.push(flashInterval)
+
+  dmxAnimation(anim, { loop: true })
+}
+
 const row = [
   <Pad button={11} color={COLORS.OFF} onPressed={() => flashRandom(11, 3)} />,
   <Pad button={12} color={COLORS.OFF} onPressed={() => flashRandom(12, 6)} />,
@@ -240,6 +274,39 @@ const row = [
   <Pad button={16} color={COLORS.OFF} onPressed={() => flashRandom(16, 18)} />,
   <Pad button={17} color={COLORS.OFF} onPressed={() => flashRandom(17, 21)} />,
   <Pad button={18} color={COLORS.OFF} onPressed={() => flashRandom(18, 24)} />,
+  
+  // Row 1 - RED
+  <Pad button={21} color={COLORS.OFF} onPressed={() => flashRandomColor(21, 'red', 3 )} />,
+  <Pad button={22} color={COLORS.OFF} onPressed={() => flashRandomColor(22, 'red', 6 )} />,
+  <Pad button={23} color={COLORS.OFF} onPressed={() => flashRandomColor(23, 'red', 9 )} />,
+  <Pad button={24} color={COLORS.OFF} onPressed={() => flashRandomColor(24, 'red', 12 )} />,
+  <Pad button={25} color={COLORS.OFF} onPressed={() => flashRandomColor(25, 'red', 15 )} />,
+  <Pad button={26} color={COLORS.OFF} onPressed={() => flashRandomColor(26, 'red', 18 )} />,
+  <Pad button={27} color={COLORS.OFF} onPressed={() => flashRandomColor(27, 'red', 21 )} />,
+  <Pad button={28} color={COLORS.OFF} onPressed={() => flashRandomColor(28, 'red', 24 )} />,
+  <Pad button={29} color={COLORS.RED}/>,
+
+  // ROW 2 - GREEN
+  <Pad button={31} color={COLORS.OFF} onPressed={() => flashRandomColor(31, 'green', 4 )} />,
+  <Pad button={32} color={COLORS.OFF} onPressed={() => flashRandomColor(32, 'green', 7 )} />,
+  <Pad button={33} color={COLORS.OFF} onPressed={() => flashRandomColor(33, 'green', 10 )} />,
+  <Pad button={34} color={COLORS.OFF} onPressed={() => flashRandomColor(34, 'green', 13 )} />,
+  <Pad button={35} color={COLORS.OFF} onPressed={() => flashRandomColor(35, 'green', 16 )} />,
+  <Pad button={36} color={COLORS.OFF} onPressed={() => flashRandomColor(36, 'green', 19 )} />,
+  <Pad button={37} color={COLORS.OFF} onPressed={() => flashRandomColor(37, 'green', 22 )} />,
+  <Pad button={38} color={COLORS.OFF} onPressed={() => flashRandomColor(38, 'green', 25 )} />,
+  <Pad button={39} color={COLORS.GREEN}/>,
+
+  // ROW 3 - BLUE
+  <Pad button={41} color={COLORS.OFF} onPressed={() => flashRandomColor(41, 'blue', 5 )} />,
+  <Pad button={42} color={COLORS.OFF} onPressed={() => flashRandomColor(42, 'blue', 8 )} />,
+  <Pad button={43} color={COLORS.OFF} onPressed={() => flashRandomColor(43, 'blue', 11 )} />,
+  <Pad button={44} color={COLORS.OFF} onPressed={() => flashRandomColor(44, 'blue', 14 )} />,
+  <Pad button={45} color={COLORS.OFF} onPressed={() => flashRandomColor(45, 'blue', 17 )} />,
+  <Pad button={46} color={COLORS.OFF} onPressed={() => flashRandomColor(46, 'blue', 20 )} />,
+  <Pad button={47} color={COLORS.OFF} onPressed={() => flashRandomColor(47, 'blue', 23 )} />,
+  <Pad button={48} color={COLORS.OFF} onPressed={() => flashRandomColor(48, 'blue', 26 )} />,
+  <Pad button={49} color={COLORS.BLUE}/>,
 ]
 
 const ChangeTempoComponent = ({ direction, steps }) => {
@@ -260,7 +327,7 @@ const ledbar_26CH = {
     <Pad button={19} color={COLORS.WHITE} onPressed={() => {
       clearDMX()
       flashIntervalCache.map(item => clearInterval(item))
-      row.map(item => setButtonColor(item.props.button, COLORS.OFF))
+      row.filter(item => String(item.props.button).charAt(1) != 9).map(item => setButtonColor(item.props.button, COLORS.OFF))
     }} />,
     row
   ]

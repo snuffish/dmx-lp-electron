@@ -7,20 +7,26 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 
-const tempoStep = 2.5
+const tempoStep = 0.01
 let barPosition = 0
 
 const TempoComponent = () => {
   const dispatch = useDispatch()
   const tempo = window.tempo
   const [toggle, setToggle] = useState(false)
-  const upArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.UpArrow].isPressed)
-  const downArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.DownArrow].isPressed)
+  const rightArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.RightArrow].isPressed)
+  const leftArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.LeftArrow].isPressed)
 
   useEffect(() => {
     setTimeout(() => {
       setToggle(!toggle)
-      setButtonColor(Grid.Logo, toggle ? COLORS.WHITE : COLORS.OFF)
+
+      if (barPosition === 0) {
+        setButtonColor(parseInt(`78`), COLORS.OFF)
+        setButtonColor(Grid.Logo, COLORS.WHITE)
+      } else {
+        setButtonColor(Grid.Logo, toggle ? COLORS.WHITE_DARKER : [10, 10, 10])
+      }
 
       setButtonColor(82, toggle ? COLORS.WHITE : COLORS.OFF)
       setButtonColor(84, toggle ? COLORS.WHITE : COLORS.OFF)
@@ -32,10 +38,6 @@ const TempoComponent = () => {
       setButtonColor(85, toggle ? COLORS.OFF : COLORS.WHITE_DARK)
       setButtonColor(87, toggle ? COLORS.OFF : COLORS.WHITE_DARK)
 
-      if (barPosition === 0) {
-        setButtonColor(parseInt(`78`), COLORS.OFF)
-      }
-
       setButtonColor(parseInt(`7${barPosition}`), COLORS.OFF)
       barPosition++
       setButtonColor(parseInt(`7${barPosition}`), COLORS.WHITE_DARKER)
@@ -46,43 +48,43 @@ const TempoComponent = () => {
   }, [toggle])
 
   useEffect(() => {
-    setButtonColor(Grid.TopPanel.UpArrow, COLORS.WHITE_DARK)
-    setButtonColor(Grid.TopPanel.DownArrow, COLORS.WHITE_DARK)
+    setButtonColor(Grid.TopPanel.RightArrow, COLORS.WHITE_DARK)
+    setButtonColor(Grid.TopPanel.LeftArrow, COLORS.WHITE_DARK)
   }, [])
 
   useEffect(() => {
-    if (upArrowIsPressed) {
-      setButtonColor(Grid.TopPanel.UpArrow, COLORS.WHITE)
+    if (rightArrowIsPressed) {
+      setButtonColor(Grid.TopPanel.RightArrow, COLORS.WHITE)
       window.interval = setInterval(() => {
-        window.tempo = window.tempo + tempoStep
+        window.tempo = window.tempo - (window.tempo * tempoStep)
         console.log(window.tempo)
       }, 50)
     }
-  }, [upArrowIsPressed])
+  }, [rightArrowIsPressed])
 
   useEffect(() => {
-    if (!upArrowIsPressed) {
-      setButtonColor(Grid.TopPanel.UpArrow, COLORS.WHITE_DARK)
+    if (!rightArrowIsPressed) {
+      setButtonColor(Grid.TopPanel.RightArrow, COLORS.WHITE_DARK)
       clearInterval(window.interval)
     }
-  }, [upArrowIsPressed])
+  }, [rightArrowIsPressed])
 
   useEffect(() => {
-    if (downArrowIsPressed) {
-      setButtonColor(Grid.TopPanel.DownArrow, COLORS.WHITE  )
+    if (leftArrowIsPressed) {
+      setButtonColor(Grid.TopPanel.LeftArrow, COLORS.WHITE  )
       window.interval = setInterval(() => {
-        window.tempo = window.tempo - tempoStep
+        window.tempo = window.tempo + (window.tempo * tempoStep)
         console.log(window.tempo)
       }, 50)
     }
-  }, [downArrowIsPressed])
+  }, [leftArrowIsPressed])
 
   useEffect(() => {
-    if (!downArrowIsPressed) {
-      setButtonColor(Grid.TopPanel.DownArrow, COLORS.WHITE_DARK)
+    if (!leftArrowIsPressed) {
+      setButtonColor(Grid.TopPanel.RightArrow, COLORS.WHITE_DARK)
       clearInterval(window.interval)
     }
-  }, [downArrowIsPressed])
+  }, [leftArrowIsPressed])
 
   return null
 }

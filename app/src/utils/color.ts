@@ -23,5 +23,6 @@ export const COLORS: Record<string, RgbColor> = {
   GREEN: [0, 255, 0],
   BLUE: [0, 0, 255],
   WHITE: [255, 255, 255],
-  WHITE_DARK: [100, 100, 100]
+  WHITE_DARK: [100, 100, 100],
+  WHITE_DARKER: [25, 25, 25]
 }

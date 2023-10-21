@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 
 const tempoStep = 2.5
+let barPosition = 0
 
 const TempoComponent = () => {
   const dispatch = useDispatch()
@@ -17,10 +18,37 @@ const TempoComponent = () => {
   const downArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.DownArrow].isPressed)
 
   useEffect(() => {
+    setTimeout(() => {
+      setToggle(!toggle)
+      setButtonColor(Grid.Logo, toggle ? COLORS.WHITE : COLORS.OFF)
+
+      setButtonColor(82, toggle ? COLORS.WHITE : COLORS.OFF)
+      setButtonColor(84, toggle ? COLORS.WHITE : COLORS.OFF)
+      setButtonColor(86, toggle ? COLORS.WHITE : COLORS.OFF)
+      setButtonColor(88, toggle ? COLORS.WHITE : COLORS.OFF)
+
+      setButtonColor(81, toggle ? COLORS.OFF : COLORS.WHITE_DARK)
+      setButtonColor(83, toggle ? COLORS.OFF : COLORS.WHITE_DARK)
+      setButtonColor(85, toggle ? COLORS.OFF : COLORS.WHITE_DARK)
+      setButtonColor(87, toggle ? COLORS.OFF : COLORS.WHITE_DARK)
+
+      if (barPosition === 0) {
+        setButtonColor(parseInt(`78`), COLORS.OFF)
+      }
+
+      setButtonColor(parseInt(`7${barPosition}`), COLORS.OFF)
+      barPosition++
+      setButtonColor(parseInt(`7${barPosition}`), COLORS.WHITE_DARKER)
+      if (barPosition === 8) {
+        barPosition = 0
+      }
+    }, window.tempo)
+  }, [toggle])
+
+  useEffect(() => {
     setButtonColor(Grid.TopPanel.UpArrow, COLORS.WHITE_DARK)
     setButtonColor(Grid.TopPanel.DownArrow, COLORS.WHITE_DARK)
   }, [])
-
 
   useEffect(() => {
     if (upArrowIsPressed) {
@@ -41,7 +69,7 @@ const TempoComponent = () => {
 
   useEffect(() => {
     if (downArrowIsPressed) {
-      setButtonColor(Grid.TopPanel.DownArrow, COLORS.WHITE)
+      setButtonColor(Grid.TopPanel.DownArrow, COLORS.WHITE  )
       window.interval = setInterval(() => {
         window.tempo = window.tempo - tempoStep
         console.log(window.tempo)
@@ -55,30 +83,6 @@ const TempoComponent = () => {
       clearInterval(window.interval)
     }
   }, [downArrowIsPressed])
-
-  
-
-  // useEffect(() => {
-  //   dispatch(changeTempo(tempo))
-  // }, [tempo])
-
-  // useEffect(() => {
-  //   const newTempo = tempo + 2.5
-  //   dispatch(changeTempo(newTempo))
-  // }, [upArrowIsPressed])
-
-  // useEffect(() => {
-  //   const newTempo = tempo - 2.5
-  //   dispatch(changeTempo(newTempo))
-  // }, [downArrowIsPressed])
-
-  useEffect(() => {
-    setTimeout(() => {
-      console.log("JAA => ",window.tempo)
-      setToggle(!toggle)
-      setButtonColor(Grid.Logo, toggle ? COLORS.WHITE : COLORS.OFF)
-    }, window.tempo)
-  }, [toggle])
 
   return null
 }

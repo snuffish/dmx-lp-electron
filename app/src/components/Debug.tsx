@@ -11,7 +11,7 @@ const Debug = () => {
       {/* <br />
       <span>Color: {color}</span> */}
       <br />
-      <span><b>Tempo:</b> {window.tempo}</span><br/>
+      <span><b>BPM:</b> {(60 * 1000) / window.tempo}</span> | <span><b>Tempo:</b> {window.tempo}</span><br/>
       <span>
         <b>Buttons</b>
         <br />

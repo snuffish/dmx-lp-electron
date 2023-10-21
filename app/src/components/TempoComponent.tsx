@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { changeColor, changeTempo } from "Redux/components/pad/padActions"
 import { COLORS } from "Utils/color"
+import { updateDMX } from "Utils/dmx"
 import { Grid, setButtonColor } from "Utils/launchpad"
 import React from "react"
 import { useEffect, useState } from "react"
@@ -16,6 +17,7 @@ const TempoComponent = () => {
   const [toggle, setToggle] = useState(false)
   const rightArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.RightArrow].isPressed)
   const leftArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.TopPanel.LeftArrow].isPressed)
+  const tempoArrowIsPressed = useSelector((state: any) => state.pad.buttons[Grid.RightPanel.Arrow7].isPressed)
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,9 +27,8 @@ const TempoComponent = () => {
         setButtonColor(parseInt(`78`), COLORS.OFF)
         setButtonColor(Grid.Logo, COLORS.WHITE)
       } else {
-        setButtonColor(Grid.Logo, toggle ? COLORS.WHITE_DARKER : [10, 10, 10])
+        setButtonColor(Grid.Logo, toggle ? COLORS.WHITE : [10, 10, 10])
       }
-
       setButtonColor(82, toggle ? COLORS.WHITE : COLORS.OFF)
       setButtonColor(84, toggle ? COLORS.WHITE : COLORS.OFF)
       setButtonColor(86, toggle ? COLORS.WHITE : COLORS.OFF)
@@ -44,12 +45,37 @@ const TempoComponent = () => {
       if (barPosition === 8) {
         barPosition = 0
       }
+
+      if (window.strobePos.includes(barPosition)) {
+        updateDMX({
+          2: 255
+        })
+      } else {
+        updateDMX({
+          2: 0
+        })
+      }
     }, window.tempo)
   }, [toggle])
 
   useEffect(() => {
+    if (tempoArrowIsPressed) {
+      barPosition = 0
+      setButtonColor(71, COLORS.OFF)
+      setButtonColor(72, COLORS.OFF)
+      setButtonColor(73, COLORS.OFF)
+      setButtonColor(74, COLORS.OFF)
+      setButtonColor(75, COLORS.OFF)
+      setButtonColor(76, COLORS.OFF)
+      setButtonColor(77, COLORS.OFF)
+      setButtonColor(78, COLORS.OFF)
+    }
+  }, [tempoArrowIsPressed])
+
+  useEffect(() => {
     setButtonColor(Grid.TopPanel.RightArrow, COLORS.WHITE_DARK)
     setButtonColor(Grid.TopPanel.LeftArrow, COLORS.WHITE_DARK)
+    setButtonColor(Grid.RightPanel.Arrow7, COLORS.WHITE)
   }, [])
 
   useEffect(() => {

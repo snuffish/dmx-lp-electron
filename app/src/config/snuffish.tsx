@@ -188,7 +188,7 @@ import { randomNumber } from 'Utils/math'
 
 const rng = () => Math.floor(Math.random() * 255)
 
-window.tempo = 250
+window.tempo = 435
 
 let flashIntervalCache = []
 
@@ -265,6 +265,8 @@ const flashRandomColor = (button: number, color: 'red' | 'green' | 'blue', dmxCh
   dmxAnimation(anim, { loop: true })
 }
 
+window.strobePos = []
+
 const row = [
   <Pad button={11} color={COLORS.OFF} onPressed={() => flashRandom(11, 3)} />,
   <Pad button={12} color={COLORS.OFF} onPressed={() => flashRandom(12, 6)} />,
@@ -307,6 +309,41 @@ const row = [
   <Pad button={47} color={COLORS.OFF} onPressed={() => flashRandomColor(47, 'blue', 23 )} />,
   <Pad button={48} color={COLORS.OFF} onPressed={() => flashRandomColor(48, 'blue', 26 )} />,
   <Pad button={49} color={COLORS.BLUE}/>,
+
+  // ROW 4 - Strobe
+  <Pad button={51} onPressed={() => {
+    window.strobePos.push(1)
+    setButtonColor(51, COLORS.WHITE)
+  }}/>,
+  <Pad button={52} onPressed={() => {
+    window.strobePos.push(2)
+    setButtonColor(52, COLORS.WHITE)
+  }}/>,
+  <Pad button={53} onPressed={() => {
+    window.strobePos.push(3)
+    setButtonColor(53, COLORS.WHITE)
+  }}/>,
+  <Pad button={54} onPressed={() => {
+    window.strobePos.push(3)
+    setButtonColor(54, COLORS.WHITE)
+  }}/>,
+  <Pad button={55} onPressed={() => {
+    window.strobePos.push(5)
+    setButtonColor(55, COLORS.WHITE)
+  }}/>,
+  <Pad button={56} onPressed={() => {
+    window.strobePos.push(6)
+    setButtonColor(56, COLORS.WHITE)
+  }}/>,
+  <Pad button={57} onPressed={() => {
+    window.strobePos.push(7)
+    setButtonColor(57, COLORS.WHITE)
+  }}/>,
+  <Pad button={58} onPressed={() => {
+    window.strobePos.push(8)
+    setButtonColor(58, COLORS.WHITE)
+  }}/>,
+  <Pad button={59} color={COLORS.WHITE}/>,
 ]
 
 const ChangeTempoComponent = ({ direction, steps }) => {
@@ -326,6 +363,7 @@ const ledbar_26CH = {
     // }}/>,
     <Pad button={19} color={COLORS.WHITE} onPressed={() => {
       clearDMX()
+      window.strobePos = []
       flashIntervalCache.map(item => clearInterval(item))
       row.filter(item => String(item.props.button).charAt(1) != 9).map(item => setButtonColor(item.props.button, COLORS.OFF))
     }} />,

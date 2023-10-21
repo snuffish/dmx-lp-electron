@@ -210,7 +210,7 @@ app.on('web-contents-created', (event, contents) => {
 })
 
 const initDMX = async () => {
-  const serialPort = 'COM3'
+  const serialPort = '/dev/cu.usbserial-A5065QFW'
   const dmxSpeed = 40
 
   dmx = new DMX()
@@ -256,13 +256,19 @@ ipcMain
       console.log("EX => ", ex)
     }
   })
-  .on('lpFlashButton', (event, { button, fromColor, toColor }) => {
+  .on('lpFlashButton', (event, { button, fromColor = 0, toColor = 0 }) => {
     lp.flash(button, fromColor, toColor)
   })
 
+
+let animationCache = []
+
 // DMX
 ipcMain
-  .on('dmxClear', () => universe.updateAll(0))
+  .on('dmxClear', () => {
+    universe.updateAll(0)
+    animationCache.map(anim => anim.stop())
+  })
   .on('dmxUpdate', (event, universeData) => {
     universe.update(universeData)
   })
@@ -273,4 +279,39 @@ ipcMain
     // @TODO: Implement this
     // const value = universe.get(channel)
     // return value
+  })
+  .on('dmxAnimation', (event, { data, props }) => {
+    console.log("DATA => ", data)
+    const animation = new Animation()
+    animationCache.push(animation)
+
+    data.map(item => {
+      if (item.delay !== undefined) {
+        animation.delay(item.delay)
+        return
+      }
+
+      let dmxValues = {}
+      for (const [key, value] of Object.entries(item)) {
+        if (key !== 'duration' || key !== 'delay')
+          dmxValues = { ...dmxValues, [key]: value }
+      }
+
+      animation.add(dmxValues, item.duration !== undefined ?? 0)
+    })
+
+    props?.loop ? animation.runLoop(universe) : animation.run(universe)
+
+    // new Animation()
+    // .add({
+    //   24: 255
+    // }, 1000)
+    // .delay(5000)
+    // .add({
+    //   24: 0
+    // }, 1000)
+    // .runLoop(universe)
+  })
+  .on('dmxStopAnimation', (event) => {
+    animation.stop()
   })

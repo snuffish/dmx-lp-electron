@@ -2,6 +2,7 @@ import { CHANNELS } from "Constants/ipc"
 import { IntRange } from "Types/index"
 import { RgbColor } from "launchpad.js"
 import { COLORS } from "./color"
+import { colorFromRGB } from "launchpad.js/dist/colorHelpers"
 
 type GridMappingProps = Record<number, number[]>
 export type GridRowOrientation = 'horizontal' | 'vertical'
@@ -9,10 +10,10 @@ export type GridRowOrientation = 'horizontal' | 'vertical'
 const Logo = 99
 
 const TopPanel = {
-  ArrowUp: 91,
-  ArrowDown: 92,
-  ArrowLeft: 93,
-  ArrowRight: 94,
+  UpArrow: 91,
+  DownArrow: 92,
+  LeftArrow: 93,
+  RightArrow: 94,
   Session: 95,
   Drums: 96,
   Keys: 97,
@@ -59,15 +60,14 @@ const vertical: GridMappingProps = {
 }
 
 export const GridAllButtons = Object.entries(horizontal).flatMap(([index, value]) => value)
-
 export const GridLayout = { horizontal, vertical }
-
 export const getGridRow = (row: IntRange<1, 9>, orientation: GridRowOrientation = 'vertical'): number[] => GridLayout[orientation][row]
-
 export const setButtonColor = (button: number, color: RgbColor) => window.api.send(CHANNELS.LP.PAD_COLOR, { button, color })
-
+export const setFlashButton = (button: number, fromColor: RgbColor, toColor: RgbColor) =>
+  window.api.send(CHANNELS.LP.FLASH_BUTTON, { button, fromColor, toColor })
 export const clearGrid = () => GridAllButtons.map(button => setButtonColor(button, COLORS.OFF))
 
 // Export to window global scope
 window.lpClear = clearGrid
 window.lpSetButtonColor = setButtonColor
+window.lpSetFlashButton = setFlashButton

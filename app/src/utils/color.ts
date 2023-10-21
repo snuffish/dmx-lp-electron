@@ -23,4 +23,5 @@ export const COLORS: Record<string, RgbColor> = {
   GREEN: [0, 255, 0],
   BLUE: [0, 0, 255],
   WHITE: [255, 255, 255]
+
 }

@@ -8,11 +8,7 @@ declare global {
       send: (channel: string, data?: any) => boolean
       [key: string]: any
     },
-    lpClear: Function
-    lpSetButtonColor: Function
-    dmxClear: Function
-    dmxUpdate: Function
-    dmxUpdateAll: Function
+    [key: string]: Function
   }
 }
 
@@ -27,3 +23,9 @@ type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] exte
 export type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>
 
 export type Button = { button: number }
+
+export type AnimationProps = {
+  [key: number]: number
+  duration: number
+  delay: number
+}[]

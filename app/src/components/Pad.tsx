@@ -3,6 +3,7 @@ import { Button } from 'Types/index'
 import { randomRGB } from 'Utils/color'
 import { setButtonColor } from 'Utils/launchpad'
 import { RgbColor } from 'launchpad.js'
+import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,13 +12,14 @@ type Props = Button & {
   onRelease?: Function,
   onInit?: Function
   color?: RgbColor
+  children: any
 }
 
-const Pad = ({ button, color, onInit, onPressed, onRelease }: Props) => {
+const Pad = ({ button, color, onInit, onPressed, onRelease, children }: Props) => {
   const dispatch = useDispatch()
   const isPressed = useSelector((state: any) => state.pad.buttons[button].isPressed)
   const rgbColor = useSelector((state: any) => state.pad.buttons[button].color)
-  
+
   onInit && onInit()
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Pad = ({ button, color, onInit, onPressed, onRelease }: Props) => {
     !isPressed && onRelease && onRelease()
   }, [isPressed])
   
-  return null
+  return <>{children}</>
 }
 
 export default Pad

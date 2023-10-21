@@ -253,7 +253,7 @@ ipcMain
     try {
       lp.setButtonColor(parseInt(button), colorFromRGB(color))
     } catch (ex) {
-      console.log("EX => ", ex)
+      console.log("EX => ", ex, "BUTTON => ", button, "COLOR => ", color)
     }
   })
   .on('lpFlashButton', (event, { button, fromColor = 0, toColor = 0 }) => {

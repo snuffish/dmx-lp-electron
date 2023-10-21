@@ -15,6 +15,7 @@ const padReducer = createSlice({
       {}
     ),
     isPressed: false,
+    tempo: 250
   },
   reducers: {
     changeColor(state: any, action) {
@@ -25,9 +26,13 @@ const padReducer = createSlice({
       const { button, pressed } = action.payload
       state.buttons[button].isPressed = pressed
     },
+    changeTempo(state: any, action) {
+      const { tempo } = action.payload
+      state.tempo = tempo
+    }
   },
 })
 
-export const { changeColor, setPressed } = padReducer.actions
+export const { changeColor, setPressed, changeTempo } = padReducer.actions
 
 export default padReducer.reducer

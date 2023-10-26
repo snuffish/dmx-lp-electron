@@ -15,7 +15,8 @@ const padReducer = createSlice({
       {}
     ),
     isPressed: false,
-    tempo: 430
+    tempo: 430,
+    brightness: 1
   },
   reducers: {
     changeColor(state: any, action) {
@@ -29,6 +30,10 @@ const padReducer = createSlice({
     changeTempo(state: any, action) {
       const { tempo } = action.payload
       state.tempo = tempo
+    },
+    setBrightness(state: any, action) {
+      const { brightness } = action.payload
+      state.brightness = brightness
     }
   },
 })

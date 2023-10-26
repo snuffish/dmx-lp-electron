@@ -1,5 +1,5 @@
 import { RgbColor } from 'launchpad.js'
-import { CHANGE_COLOR, SET_PRESSED, CHANGE_TEMPO } from './padTypes'
+import { CHANGE_COLOR, SET_PRESSED, CHANGE_TEMPO, SET_BRIGHTNESS } from './padTypes'
 
 export const changeColor = (button: number, color: RgbColor) => ({
   type: CHANGE_COLOR,
@@ -21,5 +21,12 @@ export const changeTempo = (tempo: number) => ({
   type: CHANGE_TEMPO,
   payload: {
     tempo
+  }
+})
+
+export const setBrightness = (brightness: number) => ({
+  type: SET_BRIGHTNESS,
+  payload: {
+    brightness
   }
 })

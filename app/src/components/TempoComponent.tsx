@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 
-const tempoStep = 0.01
+const tempoStep = 0.0025
 let barPosition = 0
 
 const TempoComponent = () => {
@@ -82,7 +82,7 @@ const TempoComponent = () => {
     if (rightArrowIsPressed) {
       setButtonColor(Grid.TopPanel.RightArrow, COLORS.WHITE)
       window.interval = setInterval(() => {
-        window.tempo = window.tempo - (window.tempo * tempoStep)
+        window.tempo = window.tempo - 1
         console.log(window.tempo)
       }, 50)
     }
@@ -99,7 +99,7 @@ const TempoComponent = () => {
     if (leftArrowIsPressed) {
       setButtonColor(Grid.TopPanel.LeftArrow, COLORS.WHITE  )
       window.interval = setInterval(() => {
-        window.tempo = window.tempo + (window.tempo * tempoStep)
+        window.tempo = window.tempo + 1
         console.log(window.tempo)
       }, 50)
     }

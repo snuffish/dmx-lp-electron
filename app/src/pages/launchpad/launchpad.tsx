@@ -48,6 +48,7 @@ const Launchpad = (props: any) => {
   return (
     <>
       <Scenes>
+        <Debug />
         <MotionTest/>
         {Object.keys(config.scenes).map(name => {
           const { components } = config.scenes[name]
@@ -58,7 +59,6 @@ const Launchpad = (props: any) => {
             </Scene>
           )
         })}
-        <Debug />
       </Scenes>
     </>
   )

@@ -45,6 +45,7 @@ const Launchpad = (props: any) => {
     })
   }
 
+  console.log(Object.keys(config))
   return (
     <>
       <Scenes>
